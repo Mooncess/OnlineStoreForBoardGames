@@ -1,5 +1,7 @@
 package ru.mooncess.serverjwt.config;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.mooncess.serverjwt.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,11 +30,15 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(
                         authz -> authz
-                                .antMatchers("/api/auth/login", "/api/auth/token").permitAll()
+                                .antMatchers("/api/auth/login", "/api/auth/token", "/api/registration").permitAll()
                                 .anyRequest().authenticated()
                                 .and()
                                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 ).build();
     }
 
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

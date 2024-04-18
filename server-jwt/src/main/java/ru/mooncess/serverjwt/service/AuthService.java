@@ -3,13 +3,15 @@ package ru.mooncess.serverjwt.service;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import ru.mooncess.serverjwt.domain.JwtAuthentication;
-import ru.mooncess.serverjwt.domain.JwtRequest;
-import ru.mooncess.serverjwt.domain.JwtResponse;
-import ru.mooncess.serverjwt.domain.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import ru.mooncess.serverjwt.config.SecurityConfig;
+import ru.mooncess.serverjwt.domain.*;
 import ru.mooncess.serverjwt.exception.AuthException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import ru.mooncess.serverjwt.exception.AppError;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,12 +25,12 @@ public class AuthService {
     private final JwtProvider jwtProvider;
 
     public JwtResponse login(@NonNull JwtRequest authRequest) {
-        final User user = userService.getByLogin(authRequest.getLogin())
+        final User user = userService.findByUsername(authRequest.getLogin())
                 .orElseThrow(() -> new AuthException("Пользователь не найден"));
-        if (user.getPassword().equals(authRequest.getPassword())) {
+        if (SecurityConfig.passwordEncoder().matches(authRequest.getPassword(), user.getPassword())) {
             final String accessToken = jwtProvider.generateAccessToken(user);
             final String refreshToken = jwtProvider.generateRefreshToken(user);
-            refreshStorage.put(user.getLogin(), refreshToken);
+            refreshStorage.put(user.getUsername(), refreshToken);
             return new JwtResponse(accessToken, refreshToken);
         } else {
             throw new AuthException("Неправильный пароль");
@@ -41,7 +43,7 @@ public class AuthService {
             final String login = claims.getSubject();
             final String saveRefreshToken = refreshStorage.get(login);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User user = userService.getByLogin(login)
+                final User user = userService.findByUsername(login)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 return new JwtResponse(accessToken, null);
@@ -56,11 +58,11 @@ public class AuthService {
             final String login = claims.getSubject();
             final String saveRefreshToken = refreshStorage.get(login);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User user = userService.getByLogin(login)
+                final User user = userService.findByUsername(login)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 final String newRefreshToken = jwtProvider.generateRefreshToken(user);
-                refreshStorage.put(user.getLogin(), newRefreshToken);
+                refreshStorage.put(user.getUsername(), newRefreshToken);
                 return new JwtResponse(accessToken, newRefreshToken);
             }
         }
@@ -71,4 +73,11 @@ public class AuthService {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
 
+    public ResponseEntity<?> createNewUser(@RequestBody RegistrationRequest registrationRequest) {
+        if (userService.findByUsername(registrationRequest.getUsername()).isPresent()) {
+            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "A user with the specified email address already exists"), HttpStatus.BAD_REQUEST);
+        }
+        userService.createNewUser(registrationRequest);
+        return ResponseEntity.ok().build();
+    }
 }
