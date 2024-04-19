@@ -39,6 +39,9 @@ dependencies {
 	compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
+
+//	implementation group: 'org.springframework', name: 'spring-webflux', version: '6.0.8'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '3.2.4'
 }
 
 tasks.named('test') {

@@ -1,23 +1,47 @@
 package ru.mooncess.serverjwt.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.mooncess.serverjwt.domain.JwtAuthentication;
 import ru.mooncess.serverjwt.domain.RegistrationRequest;
+import ru.mooncess.serverjwt.domain.UserForApp;
 import ru.mooncess.serverjwt.service.AuthService;
+import ru.mooncess.serverjwt.service.UserService;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("api")
 @RequiredArgsConstructor
 public class Controller {
-
     private final AuthService authService;
+    private final UserService userService;
+    private final WebClient webClient = WebClient.create("http://localhost:8080");
 
     @PostMapping("/registration")
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationRequest registrationRequest) {
-        return authService.createNewUser(registrationRequest);
+        ResponseEntity<?> response = authService.createNewUser(registrationRequest);
+        if (response.getStatusCodeValue() == 200) {
+            UserForApp userForApp = new UserForApp();
+            userForApp.setId(userService.findByUsername(registrationRequest.getUsername()).get().getId());
+            userForApp.setFirstName(registrationRequest.getFirstName());
+            userForApp.setLastName(registrationRequest.getLastName());
+            userForApp.setPhoneNumber(registrationRequest.getPhoneNumber());
+            
+            // Нужна корректировка: необходимо возвращать статус ответа от сервера приложения
+            // и удалять юзера из БД, если что-то пошло не так
+            webClient.post()
+                    .uri("/api/registration")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(Mono.just(userForApp), UserForApp.class)
+                    .retrieve()
+                    .bodyToMono(Integer.class)
+                    .block();
+        }
+        return response;
     }
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("hello/user")

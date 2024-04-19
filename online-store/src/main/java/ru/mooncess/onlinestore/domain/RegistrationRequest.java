@@ -1,4 +1,4 @@
-package ru.mooncess.serverjwt.domain;
+package ru.mooncess.onlinestore.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,8 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class RegistrationRequest {
-    private String username;
-    private String password;
+    private Long id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
