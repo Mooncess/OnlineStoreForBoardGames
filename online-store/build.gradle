@@ -41,6 +41,7 @@ dependencies {
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
 
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 }
 
 tasks.named('test') {
