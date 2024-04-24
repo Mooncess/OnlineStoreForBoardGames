@@ -27,10 +27,11 @@ public class Controller {
         if (response.getStatusCodeValue() == 200) {
             UserForApp userForApp = new UserForApp();
             userForApp.setId(userService.findByUsername(registrationRequest.getUsername()).get().getId());
+            userForApp.setUsername(registrationRequest.getUsername());
             userForApp.setFirstName(registrationRequest.getFirstName());
             userForApp.setLastName(registrationRequest.getLastName());
             userForApp.setPhoneNumber(registrationRequest.getPhoneNumber());
-            
+
             // Нужна корректировка: необходимо возвращать статус ответа от сервера приложения
             // и удалять юзера из БД, если что-то пошло не так
             webClient.post()

@@ -23,6 +23,7 @@ public class Controller {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("hello/admin")
     public ResponseEntity<String> helloAdmin() {
+        authService.getAuthentication().getName();
         return ResponseEntity.ok("Hello admin "+ authService.getAuthentication().getPrincipal() + "!");
     }
 

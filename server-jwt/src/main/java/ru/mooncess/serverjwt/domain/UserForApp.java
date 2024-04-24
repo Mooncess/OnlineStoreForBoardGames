@@ -13,6 +13,7 @@ import javax.persistence.Column;
 @AllArgsConstructor
 public class UserForApp {
     private Long id;
+    private String username;
     private String firstName;
     private String lastName;
     private String phoneNumber;
