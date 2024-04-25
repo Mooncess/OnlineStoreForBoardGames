@@ -12,6 +12,7 @@ import java.util.List;
 public interface ArticleMapper {
     default Article articleCreateDtoToEntity(ArticleCreateDTO dto) {
         Article article = new Article();
+        article.setName(dto.getName());
         article.setDescription(dto.getDescription());
         article.setQuantityOfPlayers(dto.getQuantityOfPlayers());
         article.setGameTime(dto.getGameTime());

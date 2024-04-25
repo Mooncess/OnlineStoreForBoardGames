@@ -11,6 +11,7 @@ import java.util.List;
 
 @Data
 public class ArticleCreateDTO {
+    private String name;
     private String description;
     private Short quantityOfPlayers;
     private String gameTime;

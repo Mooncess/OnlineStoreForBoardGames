@@ -16,6 +16,7 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    private String name;
     private String description;
     @Column(name = "quantity_of_players")
     private Short quantityOfPlayers;
