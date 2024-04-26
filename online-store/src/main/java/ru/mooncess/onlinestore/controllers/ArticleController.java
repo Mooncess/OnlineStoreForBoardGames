@@ -3,6 +3,7 @@ package ru.mooncess.onlinestore.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.mooncess.onlinestore.dto.ArticleCreateDTO;
@@ -23,8 +24,7 @@ public class ArticleController {
 //    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/admin/create")
     public ResponseEntity<?> createArticle(@RequestPart ArticleCreateDTO articleCreateDTO, @RequestPart MultipartFile image) {
-        String imageURN = imageService.addImage(image);
-        Optional<Article> optionalArticle = articleService.createArticle(articleCreateDTO, imageURN);
+        Optional<Article> optionalArticle = articleService.createArticle(articleCreateDTO, image);
         if (optionalArticle.isPresent()) {
             Article createdArticle = optionalArticle.get();
             return ResponseEntity.status(HttpStatus.CREATED).body(createdArticle);
@@ -32,6 +32,26 @@ public class ArticleController {
         else {
             return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Incorrect creation data"), HttpStatus.BAD_REQUEST);
         }
+    }
+
+//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/admin/update/{id}")
+    public ResponseEntity<?> updateCategory(@PathVariable Long id,
+                                            @RequestPart ArticleCreateDTO articleCreateDTO,
+                                            @RequestPart MultipartFile image) {
+        Optional<Article> update = articleService.updateArticle(id, articleCreateDTO, image);
+        if (update.isPresent()) {
+            return ResponseEntity.ok(update.get());
+        }
+        return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Invalid data to update"), HttpStatus.BAD_REQUEST);
+    }
+//    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/admin/delete/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable Long id) {
+        if (articleService.deleteArticle(id)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping()
