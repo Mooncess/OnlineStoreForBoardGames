@@ -3,7 +3,6 @@ package ru.mooncess.onlinestore.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.mooncess.onlinestore.dto.ArticleCreateDTO;
@@ -36,7 +35,10 @@ public class ArticleController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getArticle(@RequestParam(name = "sort", required = false, defaultValue = "0") Long sort, @RequestParam(name = "category", required = false, defaultValue = "0") Long categoryId) {
+    public ResponseEntity<?> getArticle(@RequestParam(name = "sort", required = false, defaultValue = "0") Long sort,
+                                        @RequestParam(name = "category", required = false, defaultValue = "0") Long categoryId,
+                                        @RequestParam(name = "name", required = false, defaultValue = "-") String reg) {
+        if (!reg.equals("-")) return ResponseEntity.ok(articleService.findArticleSimName(reg));
         if (sort == 0) {
             if (categoryId == 0) {
                 return ResponseEntity.ok(articleService.getAllArticle());

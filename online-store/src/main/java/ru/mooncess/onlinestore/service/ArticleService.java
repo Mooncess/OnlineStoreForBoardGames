@@ -78,4 +78,7 @@ public class ArticleService {
     public List<Article> findArticleByReservesDesc(){
         return articleRepository.findArticleByReservesDesc();
     }
+    public List<Article> findArticleSimName(String reg) {
+        return articleRepository.findArticleSimName(reg);
+    }
 }

@@ -42,4 +42,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query("SELECT a FROM Article a ORDER BY a.reserves DESC")
     List<Article> findArticleByReservesDesc();
+
+    @Query("SELECT a FROM Article a WHERE a.description LIKE %:regexPattern%")
+    List<Article> findArticleSimName(@Param("regexPattern") String regexPattern);
 }
