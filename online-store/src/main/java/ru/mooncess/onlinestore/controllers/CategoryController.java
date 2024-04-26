@@ -19,8 +19,8 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
-        return ResponseEntity.ok(categoryService.getAllCategory());
+    public ResponseEntity<List<Category>> findAllCategoriesSortByName() {
+        return ResponseEntity.ok(categoryService.findAllCategoriesSortByName());
     }
     @GetMapping("/admin/{id}")
     public ResponseEntity<?> getCategoryById(@PathVariable Long id) {
@@ -32,7 +32,7 @@ public class CategoryController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/admin/create")
     public ResponseEntity<?> createCategory(@RequestParam String nameOfCategory) {
         Optional<Category> optionalCategory = categoryService.createCategory(nameOfCategory);
@@ -44,7 +44,7 @@ public class CategoryController {
             return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Incorrect creation data"), HttpStatus.BAD_REQUEST);
         }
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/admin/update/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestParam String nameOfCategory) {
         Optional<Category> update = categoryService.updateCategory(id, nameOfCategory);
@@ -53,7 +53,7 @@ public class CategoryController {
         }
         return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Invalid data to update"), HttpStatus.BAD_REQUEST);
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/admin/delete/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         if (categoryService.deleteCategory(id)) {

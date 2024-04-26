@@ -18,6 +18,10 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+    public List<Category> findAllCategoriesSortByName() {
+        return categoryRepository.findAllCategoriesSortByName();
+    }
+
     public Optional<Category> getCategoryById(Long id) {
         return categoryRepository.findById(id);
     }
