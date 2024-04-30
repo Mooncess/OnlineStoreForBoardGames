@@ -2,6 +2,7 @@ package ru.mooncess.onlinestore.service;
 
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.mooncess.onlinestore.dto.ArticleCreateDTO;
@@ -102,7 +103,6 @@ public class ArticleService {
     public List<Article> findArticleByCategoryAndSortByNameDesc(Long categoryId){
         return articleRepository.findArticleByCategoryAndSortByNameDesc(categoryId);
     }
-
     public List<Article> findArticleByReservesAsc(){
         return articleRepository.findArticleByReservesAsc();
     }
@@ -110,7 +110,16 @@ public class ArticleService {
     public List<Article> findArticleByReservesDesc(){
         return articleRepository.findArticleByReservesDesc();
     }
-    public List<Article> findArticleSimName(String reg) {
-        return articleRepository.findArticleSimName(reg);
-    }
+    public List<Article> findArticleBySimName(String reg) { return articleRepository.findArticleBySimName(reg); }
+    public List<Article> findArticleBySimNameAndSortByPriceAsc(String reg) { return articleRepository.findArticleBySimNameAndSortByPriceAsc(reg); }
+    public List<Article> findArticleBySimNameAndSortByPriceDesc(String reg) { return articleRepository.findArticleBySimNameAndSortByPriceDesc(reg); }
+    public List<Article> findArticleBySimNameAndSortByNameAsc(String reg) { return articleRepository.findArticleBySimNameAndSortByNameAsc(reg); }
+    public List<Article> findArticleBySimNameAndSortByNameDesc(String reg) { return articleRepository.findArticleBySimNameAndSortByNameDesc(reg); }
+    public List<Article> findArticleByCategoryAndSimName(Long categoryId, String reg) { return articleRepository.findArticleByCategoryAndSimName(categoryId, reg); }
+    public List<Article> findArticleByCategoryAndSimNameAndSortByPriceAsc(Long categoryId, String reg) { return articleRepository.findArticleByCategoryAndSimNameAndSortByPriceAsc(categoryId, reg); }
+    public List<Article> findArticleByCategoryAndSimNameAndSortByPriceDesc(Long categoryId, String reg) { return articleRepository.findArticleByCategoryAndSimNameAndSortByPriceDesc(categoryId, reg); }
+    public List<Article> findArticleByCategoryAndSimNameAndSortByNameAsc(Long categoryId, String reg) { return articleRepository.findArticleByCategoryAndSimNameAndSortByNameAsc(categoryId, reg); }
+    public List<Article> findArticleByCategoryAndSimNameAndSortByNameDesc(Long categoryId, String reg) { return articleRepository.findArticleByCategoryAndSimNameAndSortByNameDesc(categoryId, reg); }
+
+
 }

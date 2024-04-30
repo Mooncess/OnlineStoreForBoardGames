@@ -56,49 +56,28 @@ public class ArticleController {
 
     @GetMapping()
     public ResponseEntity<?> getArticle(@RequestParam(name = "sort", required = false, defaultValue = "0") Long sort,
-                                        @RequestParam(name = "category", required = false, defaultValue = "0") Long categoryId,
-                                        @RequestParam(name = "name", required = false, defaultValue = "-") String reg) {
-        if (!reg.equals("-")) return ResponseEntity.ok(articleService.findArticleSimName(reg));
-        if (sort == 0) {
-            if (categoryId == 0) {
-                return ResponseEntity.ok(articleService.getAllArticle());
-            }
-            else {
-                return ResponseEntity.ok(articleService.findArticleByCategory(categoryId));
-            }
-        }
-        else if (sort == 1) {
-            if (categoryId == 0) {
-                return ResponseEntity.ok(articleService.findArticleByPriceAsc());
-            }
-            else {
-                return ResponseEntity.ok(articleService.findArticleByCategoryAndSortByPriceAsc(categoryId));
-            }
-        }
-        else if (sort == 2) {
-            if (categoryId == 0) {
-                return ResponseEntity.ok(articleService.findArticleByPriceDesc());
-            }
-            else {
-                return ResponseEntity.ok(articleService.findArticleByCategoryAndSortByPriceDesc(categoryId));
-            }
-        }
-        else if (sort == 3) {
-            if (categoryId == 0) {
-                return ResponseEntity.ok(articleService.findArticleByNameAsc());
-            }
-            else {
-                return ResponseEntity.ok(articleService.findArticleByCategoryAndSortByNameAsc(categoryId));
-            }
-        }
-        else if (sort == 4) {
-            if (categoryId == 0) {
-                return ResponseEntity.ok(articleService.findArticleByNameDesc());
-            }
-            else {
-                return ResponseEntity.ok(articleService.findArticleByCategoryAndSortByNameDesc(categoryId));
-            }
-        }
+                                        @RequestParam(name = "category", required = false) Long categoryId,
+                                        @RequestParam(name = "name", required = false) String reg) {
+        if (sort == 0 && categoryId == null && reg == null) return ResponseEntity.ok(articleService.getAllArticle());
+        else if (sort == 1 && categoryId == null && reg == null) return ResponseEntity.ok(articleService.findArticleByPriceAsc());
+        else if (sort == 2 && categoryId == null && reg == null) return ResponseEntity.ok(articleService.findArticleByPriceDesc());
+        else if (sort == 3 && categoryId == null && reg == null) return ResponseEntity.ok(articleService.findArticleByNameAsc());
+        else if (sort == 4 && categoryId == null && reg == null) return ResponseEntity.ok(articleService.findArticleByNameDesc());
+        else if (sort == 0 && categoryId != null && reg == null) return ResponseEntity.ok(articleService.findArticleByCategory(categoryId));
+        else if (sort == 1 && categoryId != null && reg == null) return ResponseEntity.ok(articleService.findArticleByCategoryAndSortByPriceAsc(categoryId));
+        else if (sort == 2 && categoryId != null && reg == null) return ResponseEntity.ok(articleService.findArticleByCategoryAndSortByPriceDesc(categoryId));
+        else if (sort == 3 && categoryId != null && reg == null) return ResponseEntity.ok(articleService.findArticleByCategoryAndSortByNameAsc(categoryId));
+        else if (sort == 4 && categoryId != null && reg == null) return ResponseEntity.ok(articleService.findArticleByCategoryAndSortByNameDesc(categoryId));
+        else if (sort == 0 && categoryId == null && reg != null) return ResponseEntity.ok(articleService.findArticleBySimName(reg));
+        else if (sort == 1 && categoryId == null && reg != null) return ResponseEntity.ok(articleService.findArticleBySimNameAndSortByPriceAsc(reg));
+        else if (sort == 2 && categoryId == null && reg != null) return ResponseEntity.ok(articleService.findArticleBySimNameAndSortByPriceDesc(reg));
+        else if (sort == 3 && categoryId == null && reg != null) return ResponseEntity.ok(articleService.findArticleBySimNameAndSortByNameAsc(reg));
+        else if (sort == 4 && categoryId == null && reg != null) return ResponseEntity.ok(articleService.findArticleBySimNameAndSortByNameDesc(reg));
+        else if (sort == 0 && categoryId != null && reg != null) return ResponseEntity.ok(articleService.findArticleByCategoryAndSimName(categoryId, reg));
+        else if (sort == 1 && categoryId != null && reg != null) return ResponseEntity.ok(articleService.findArticleByCategoryAndSimNameAndSortByPriceAsc(categoryId, reg));
+        else if (sort == 2 && categoryId != null && reg != null) return ResponseEntity.ok(articleService.findArticleByCategoryAndSimNameAndSortByPriceDesc(categoryId, reg));
+        else if (sort == 3 && categoryId != null && reg != null) return ResponseEntity.ok(articleService.findArticleByCategoryAndSimNameAndSortByNameAsc(categoryId, reg));
+        else if (sort == 4 && categoryId != null && reg != null) return ResponseEntity.ok(articleService.findArticleByCategoryAndSimNameAndSortByNameDesc(categoryId, reg));
         return ResponseEntity.badRequest().build();
     }
 

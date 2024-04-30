@@ -43,6 +43,33 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("SELECT a FROM Article a ORDER BY a.reserves DESC")
     List<Article> findArticleByReservesDesc();
 
-    @Query("SELECT a FROM Article a WHERE a.description LIKE %:regexPattern%")
-    List<Article> findArticleSimName(@Param("regexPattern") String regexPattern);
+    @Query("SELECT a FROM Article a WHERE a.name LIKE %:regexPattern%")
+    List<Article> findArticleBySimName(@Param("regexPattern") String regexPattern);
+
+    @Query("SELECT a FROM Article a WHERE a.name LIKE %:regexPattern% ORDER BY a.actualPrice ASC")
+    List<Article> findArticleBySimNameAndSortByPriceAsc(@Param("regexPattern") String regexPattern);
+
+    @Query("SELECT a FROM Article a WHERE a.name LIKE %:regexPattern% ORDER BY a.actualPrice DESC")
+    List<Article> findArticleBySimNameAndSortByPriceDesc(@Param("regexPattern") String regexPattern);
+
+    @Query("SELECT a FROM Article a WHERE a.name LIKE %:regexPattern% ORDER BY a.name ASC")
+    List<Article> findArticleBySimNameAndSortByNameAsc(@Param("regexPattern") String regexPattern);
+
+    @Query("SELECT a FROM Article a WHERE a.name LIKE %:regexPattern% ORDER BY a.name DESC")
+    List<Article> findArticleBySimNameAndSortByNameDesc(@Param("regexPattern") String regexPattern);
+
+    @Query("SELECT a FROM Article a JOIN a.category ac WHERE a.name LIKE %:regexPattern% AND ac.id = :categoryId")
+    List<Article> findArticleByCategoryAndSimName(@Param("categoryId") Long categoryId, @Param("regexPattern") String regexPattern);
+
+    @Query("SELECT a FROM Article a JOIN a.category ac WHERE a.name LIKE %:regexPattern% AND ac.id = :categoryId ORDER BY a.actualPrice ASC")
+    List<Article> findArticleByCategoryAndSimNameAndSortByPriceAsc(@Param("categoryId") Long categoryId, @Param("regexPattern") String regexPattern);
+
+    @Query("SELECT a FROM Article a JOIN a.category ac WHERE a.name LIKE %:regexPattern% AND ac.id = :categoryId ORDER BY a.actualPrice DESC")
+    List<Article> findArticleByCategoryAndSimNameAndSortByPriceDesc(@Param("categoryId") Long categoryId, @Param("regexPattern") String regexPattern);
+
+    @Query("SELECT a FROM Article a JOIN a.category ac WHERE a.name LIKE %:regexPattern% AND ac.id = :categoryId ORDER BY a.name ASC")
+    List<Article> findArticleByCategoryAndSimNameAndSortByNameAsc(@Param("categoryId") Long categoryId, @Param("regexPattern") String regexPattern);
+
+    @Query("SELECT a FROM Article a JOIN a.category ac WHERE a.name LIKE %:regexPattern% AND ac.id = :categoryId ORDER BY a.name DESC")
+    List<Article> findArticleByCategoryAndSimNameAndSortByNameDesc(@Param("categoryId") Long categoryId, @Param("regexPattern") String regexPattern);
 }
