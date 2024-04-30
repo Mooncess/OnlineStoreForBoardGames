@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mooncess.onlinestore.domain.RegistrationRequest;
-import ru.mooncess.onlinestore.entity.Article;
-import ru.mooncess.onlinestore.entity.BasketItem;
-import ru.mooncess.onlinestore.entity.Category;
-import ru.mooncess.onlinestore.entity.User;
+import ru.mooncess.onlinestore.entity.*;
+import ru.mooncess.onlinestore.repository.OrderRepository;
 import ru.mooncess.onlinestore.repository.UserRepository;
 
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private UserRepository userRepository;
+    private OrderRepository orderRepository;
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -56,4 +59,5 @@ public class UserService {
             return false;
         }
     }
+
 }

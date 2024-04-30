@@ -5,10 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ru.mooncess.onlinestore.entity.Order;
+import ru.mooncess.onlinestore.entity.Order;
 import ru.mooncess.onlinestore.exception.AppError;
 import ru.mooncess.onlinestore.service.ArticleService;
 import ru.mooncess.onlinestore.service.AuthService;
+import ru.mooncess.onlinestore.service.OrderService;
 import ru.mooncess.onlinestore.service.UserService;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("action")
@@ -16,6 +22,7 @@ import ru.mooncess.onlinestore.service.UserService;
 public class UserController {
     private final UserService userService;
     private final AuthService authService;
+    private final OrderService orderService;
     private final ArticleService articleService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -104,5 +111,63 @@ public class UserController {
         else {
             return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Incorrect data"), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @PostMapping("/create-order")
+    public ResponseEntity<?> createOrder(@RequestParam String address) {
+        return ResponseEntity.ok(orderService.createOrder(address, userService.getUserByUsername(authService.getAuthentication().getName()).get()));
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/get-user-order")
+    public ResponseEntity<?> getUserOrder() {
+        return ResponseEntity.ok(orderService.getUserOrder(userService.getUserByUsername(authService.getAuthentication().getName()).get()));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/get-all-order")
+    public ResponseEntity<?> getAllOrder() {
+        return ResponseEntity.ok(orderService.getAllOrder());
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/admin/order/{id}")
+    public ResponseEntity<?> getOrderByIdForAdmin(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getOrderByIdForAdmin(id));
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/order/{id}")
+    public ResponseEntity<?> getOrderById(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getOrderByIdAndUserId(id, userService.getUserByUsername(authService.getAuthentication().getName()).get()));
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/admin/order/{username}")
+    public ResponseEntity<?> getOrderByUserForAdmin(@PathVariable String username) {
+        Optional<List<Order>> list = orderService.getOrderByUserForAdmin(username);
+        if (list.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(list.get());
+        }
+        else {
+            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Пользователь не найден"), HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/admin/order/update-status")
+    public ResponseEntity<?> updateOrder(@RequestParam Long order, @RequestParam Long status) {
+        Optional<Order> update = orderService.updateOrder(order, status);
+        if (update.isPresent()) {
+            return ResponseEntity.ok(update.get());
+        }
+        return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Invalid data to update"), HttpStatus.BAD_REQUEST);
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/admin/order/delete/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        if (orderService.deleteOrder(id)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

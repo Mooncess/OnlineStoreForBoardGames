@@ -18,7 +18,7 @@ public class OrderItem {
     @Column(nullable = false)
     private Long articleId;
     @Column(nullable = false)
-    private Short quantity;
+    private Integer quantity;
     @Column(nullable = false)
-    private float price;
+    private Double price;
 }

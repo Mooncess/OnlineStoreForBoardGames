@@ -2,6 +2,7 @@ package ru.mooncess.onlinestore.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.mooncess.onlinestore.entity.Category;
 import ru.mooncess.onlinestore.entity.OrderStatus;
 import ru.mooncess.onlinestore.repository.OrderStatusRepository;
 
@@ -15,6 +16,9 @@ public class OrderStatusService {
 
     public List<OrderStatus> getAllOrderStatus() {
         return orderStatusRepository.findAll();
+    }
+    public Optional<OrderStatus> getOrderStatusById(Long id) {
+        return orderStatusRepository.findById(id);
     }
 
     public Optional<OrderStatus> createOrderStatus(String name) {

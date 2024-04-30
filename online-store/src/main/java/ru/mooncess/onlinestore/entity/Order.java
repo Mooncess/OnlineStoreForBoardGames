@@ -22,6 +22,8 @@ public class Order {
     private String address;
     @Column(nullable = false)
     private String orderDate;
+    @Column(nullable = false)
+    private Double total;
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
