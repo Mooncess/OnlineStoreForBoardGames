@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 public class RegistrationRequest {
     private Long id;
+    private String username;
     private String firstName;
     private String lastName;
     private String phoneNumber;

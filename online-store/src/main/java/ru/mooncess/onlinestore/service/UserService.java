@@ -22,6 +22,7 @@ public class UserService {
     public User createNewUser(RegistrationRequest registrationUserDto) {
         User user = new User();
         user.setId(registrationUserDto.getId());
+        user.setUsername(registrationUserDto.getUsername());
         user.setFirstName(registrationUserDto.getFirstName());
         user.setLastName(registrationUserDto.getLastName());
         user.setPhoneNumber(registrationUserDto.getPhoneNumber());

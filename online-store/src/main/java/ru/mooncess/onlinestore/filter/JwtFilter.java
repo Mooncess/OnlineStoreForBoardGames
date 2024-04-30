@@ -15,6 +15,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -27,24 +28,50 @@ public class JwtFilter extends GenericFilterBean {
 
     private final AuthService authService;
 
+//    @Override
+//    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+//        final String token = getTokenFromRequest((HttpServletRequest) servletRequest);
+//        if (token != null && authService.validateToken(token)) {
+//            final Claims claims = authService.getClaims(token);
+//            final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
+//            jwtInfoToken.setAuthenticated(true);
+//            SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
+//        }
+//        filterChain.doFilter(servletRequest, servletResponse);
+//    }
+//
+//    private String getTokenFromRequest(HttpServletRequest request) {
+//        final String bearer = request.getHeader(AUTHORIZATION);
+//        if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
+//            return bearer.substring(7);
+//        }
+//        return null;
+//    }
+
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        final String token = getTokenFromRequest((HttpServletRequest) servletRequest);
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        final String token = getTokenFromRequest(httpRequest);
+
         if (token != null && authService.validateToken(token)) {
             final Claims claims = authService.getClaims(token);
             final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
             System.out.println(jwtInfoToken.getUsername());
-            System.out.println(jwtInfoToken.getPrincipal());
             jwtInfoToken.setAuthenticated(true);
             SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+
+        fc.doFilter(request, response);
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
-        final String bearer = request.getHeader(AUTHORIZATION);
-        if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
-            return bearer.substring(7);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("access")) {
+                    return cookie.getValue();
+                }
+            }
         }
         return null;
     }

@@ -15,6 +15,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -27,25 +28,57 @@ public class JwtFilter extends GenericFilterBean {
 
     private final JwtProvider jwtProvider;
 
+//    @Override
+//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
+//            throws IOException, ServletException {
+//        final String token = getTokenFromRequest((HttpServletRequest) request);
+//        if (token != null && jwtProvider.validateAccessToken(token)) {
+//            final Claims claims = jwtProvider.getAccessClaims(token);
+//            final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
+//            jwtInfoToken.setAuthenticated(true);
+//            SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
+//        }
+//        fc.doFilter(request, response);
+//    }
+
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
-            throws IOException, ServletException {
-        final String token = getTokenFromRequest((HttpServletRequest) request);
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc) throws IOException, ServletException {
+        System.out.println("Я в фильтре");
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        final String token = getTokenFromRequest(httpRequest);
+
         if (token != null && jwtProvider.validateAccessToken(token)) {
             final Claims claims = jwtProvider.getAccessClaims(token);
             final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
+            System.out.println(jwtInfoToken.getUsername());
             jwtInfoToken.setAuthenticated(true);
             SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
         }
+
         fc.doFilter(request, response);
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
-        final String bearer = request.getHeader(AUTHORIZATION);
-        if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
-            return bearer.substring(7);
+        System.out.println("ищу в кукисах");
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            System.out.println("В кукисах что-то есть");
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("access")) {
+                    return cookie.getValue();
+                }
+            }
         }
+        System.out.println("Вернул null епт");
         return null;
     }
+
+//    private String getTokenFromRequest(HttpServletRequest request) {
+//        final String bearer = request.getHeader(AUTHORIZATION);
+//        if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
+//            return bearer.substring(7);
+//        }
+//        return null;
+//    }
 
 }

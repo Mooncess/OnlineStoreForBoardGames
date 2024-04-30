@@ -15,7 +15,6 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
     private String content;
     @Column(name = "comment_date")
     private String commentDate;
