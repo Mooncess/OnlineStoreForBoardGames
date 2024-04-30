@@ -43,14 +43,12 @@ public class JwtFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc) throws IOException, ServletException {
-        System.out.println("Я в фильтре");
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         final String token = getTokenFromRequest(httpRequest);
 
         if (token != null && jwtProvider.validateAccessToken(token)) {
             final Claims claims = jwtProvider.getAccessClaims(token);
             final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
-            System.out.println(jwtInfoToken.getUsername());
             jwtInfoToken.setAuthenticated(true);
             SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
         }
@@ -59,17 +57,14 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
-        System.out.println("ищу в кукисах");
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            System.out.println("В кукисах что-то есть");
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("access")) {
                     return cookie.getValue();
                 }
             }
         }
-        System.out.println("Вернул null епт");
         return null;
     }
 

@@ -23,9 +23,19 @@ public class CommentController {
     private final AuthService authService;
     private final CommentService commentService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Comment>> getAllComment() {
         return ResponseEntity.ok(commentService.getAllComment());
+    }
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("user-comments")
+    public ResponseEntity<List<Comment>> getCommentByAuthorSortByDate() {
+        return ResponseEntity.ok(commentService.getCommentByAuthorSortByDate(userService.getUserByUsername(authService.getAuthentication().getName()).get()));
+    }
+    @GetMapping("article-comments/{id}")
+    public ResponseEntity<List<Comment>> getCommentByArticleSortByDate(@PathVariable Long id) {
+        Optional<List<Comment>> list = commentService.getCommentByArticleSortByDate(id);
+        return list.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     @GetMapping("/admin/{id}")
     public ResponseEntity<?> getCommentById(@PathVariable Long id) {
@@ -37,10 +47,7 @@ public class CommentController {
             return ResponseEntity.notFound().build();
         }
     }
-//    @GetMapping("/comment/{articleId}")
-//    public ResponseEntity<?> getCommentByArticleId(@PathVariable Long articleId) {
-//        return ResponseEntity.ok(commentService.getCommentByArticleId());
-//    }
+
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/create")
     public ResponseEntity<?> createComment(@RequestBody CommentCreateDTO commentCreateDTO) {
@@ -54,16 +61,17 @@ public class CommentController {
         }
     }
 
-    @PutMapping("/comment/{id}")
+    @PreAuthorize("hasAuthority('USER')")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateComment(@PathVariable Long id, @RequestParam String content) {
-        Optional<Comment> update = commentService.updateComment(id, content);
+        Optional<Comment> update = commentService.updateComment(id, content, userService.getUserByUsername(authService.getAuthentication().getName()).get());
         if (update.isPresent()) {
             return ResponseEntity.ok(update.get());
         }
         return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Invalid data to update"), HttpStatus.BAD_REQUEST);
     }
 
-    //    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/admin/delete/{id}")
     public ResponseEntity<Void> deleteCommentAdmin(@PathVariable Long id) {
         if (commentService.deleteCommentAdmin(id)) {
@@ -71,7 +79,7 @@ public class CommentController {
         }
         return ResponseEntity.notFound().build();
     }
-    //    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         if (commentService.deleteComment(id, userService.getUserByUsername(authService.getAuthentication().getName()).get())) {
