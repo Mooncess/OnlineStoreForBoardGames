@@ -25,10 +25,8 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @JsonIgnore
     @Column(name = "personal_discount")
     private byte personalDiscount;
-    @JsonIgnore
     @Column(name = "phone_number")
     private String phoneNumber;
 

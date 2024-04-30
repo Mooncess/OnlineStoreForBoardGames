@@ -32,7 +32,7 @@ public class CategoryController {
             return ResponseEntity.notFound().build();
         }
     }
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/admin/create")
     public ResponseEntity<?> createCategory(@RequestParam String nameOfCategory) {
         Optional<Category> optionalCategory = categoryService.createCategory(nameOfCategory);

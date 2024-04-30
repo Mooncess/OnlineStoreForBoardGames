@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mooncess.onlinestore.domain.RegistrationRequest;
+import ru.mooncess.onlinestore.entity.Article;
+import ru.mooncess.onlinestore.entity.BasketItem;
 import ru.mooncess.onlinestore.entity.Category;
 import ru.mooncess.onlinestore.entity.User;
 import ru.mooncess.onlinestore.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,4 +37,23 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+    public List<BasketItem> getUserBasket(User user) {
+        return user.getBasketList();
+    }
+
+    public List<Article> getUserWishlist(User user) {
+        return user.getWishList();
+    }
+    public boolean changePhoneNumber(String phone, User user) {
+        try {
+            user.setPhoneNumber(phone);
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

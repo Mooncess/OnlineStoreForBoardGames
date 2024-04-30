@@ -21,7 +21,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final ImageService imageService;
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/admin/create")
     public ResponseEntity<?> createArticle(@RequestPart ArticleCreateDTO articleCreateDTO, @RequestPart MultipartFile image) {
         Optional<Article> optionalArticle = articleService.createArticle(articleCreateDTO, image);
@@ -34,7 +34,7 @@ public class ArticleController {
         }
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/admin/update/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable Long id,
                                             @RequestPart ArticleCreateDTO articleCreateDTO,
@@ -45,7 +45,7 @@ public class ArticleController {
         }
         return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Invalid data to update"), HttpStatus.BAD_REQUEST);
     }
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/admin/delete/{id}")
     public ResponseEntity<Void> deleteArticle(@PathVariable Long id) {
         if (articleService.deleteArticle(id)) {
@@ -81,7 +81,7 @@ public class ArticleController {
         return ResponseEntity.badRequest().build();
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/admin")
     public ResponseEntity<?> getArticleByReserves(@RequestParam(name = "sort", required = false, defaultValue = "0") Long sort) {
         if (sort == 0) {
