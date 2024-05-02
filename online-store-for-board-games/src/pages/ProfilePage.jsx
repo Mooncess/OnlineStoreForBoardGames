@@ -7,7 +7,7 @@ import MyNavbar from '../components/MyNavbar';
 const ProfilePage = () => {
     const [profileData, setProfileData] = useState(null);
     const [redirectToLogin, setRedirectToLogin] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [redirectToAdminPanel, setRedirectToAdminPanel] = useState(false);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -16,16 +16,14 @@ const ProfilePage = () => {
 
                 if (response.status === 200) {
                     setProfileData(response.data);
-                } else {
-                    console.log('Ошибка при получении данных профиля');
-                    if (response.status === 500) {
-                        setRedirectToLogin(true);
-                    }
+                } else if (response.status === 403) {
+                    setRedirectToAdminPanel(true);
+                } else if (response.status === 500) {
+                    setRedirectToLogin(true);
                 }
             } catch (error) {
                 console.error('Ошибка при запросе данных профиля на сервер:', error);
-            } finally {
-                setIsLoading(false);
+                setRedirectToLogin(true);
             }
         };
 
@@ -33,7 +31,11 @@ const ProfilePage = () => {
     }, []);
 
     if (redirectToLogin) {
-        return <Navigate to="/login" />;
+        return <Navigate to="/login" replace />;
+    }
+
+    if (redirectToAdminPanel) {
+        return <Navigate to="/admin/admin-panel" replace />;
     }
 
     return (

@@ -35,6 +35,26 @@ public class AuthController {
                 .body(token);
     }
 
+    // Добавляем новый метод logout для удаления кук
+    @GetMapping("logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        System.out.println("Запрос на выход");
+        Cookie accessCookie = new Cookie("access", null);
+        accessCookie.setPath("/");
+        accessCookie.setMaxAge(0);
+        accessCookie.setHttpOnly(true);
+
+        Cookie refreshCookie = new Cookie("refresh", null);
+        refreshCookie.setPath("/api/auth");
+        refreshCookie.setMaxAge(0);
+        refreshCookie.setHttpOnly(true);
+
+        response.addCookie(accessCookie);
+        response.addCookie(refreshCookie);
+
+        return ResponseEntity.noContent().build();
+    }
+
 //    @PostMapping("token")
 //    public ResponseEntity<JwtResponse> getNewAccessToken(@RequestBody RefreshJwtRequest request) {
 //        final JwtResponse token = authService.getAccessToken(request.getRefreshToken());
