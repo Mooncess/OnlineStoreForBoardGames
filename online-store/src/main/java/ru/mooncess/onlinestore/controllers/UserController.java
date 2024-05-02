@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.mooncess.onlinestore.entity.Order;
-import ru.mooncess.onlinestore.entity.Order;
 import ru.mooncess.onlinestore.exception.AppError;
 import ru.mooncess.onlinestore.service.ArticleService;
 import ru.mooncess.onlinestore.service.AuthService;
@@ -16,6 +15,7 @@ import ru.mooncess.onlinestore.service.UserService;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("action")
 @RequiredArgsConstructor
@@ -29,6 +29,11 @@ public class UserController {
     @GetMapping("/get-all-users")
     public ResponseEntity<?> getAllUser() {
         return ResponseEntity.ok(userService.findAllUsers());
+    }
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserInfo() {
+        return ResponseEntity.ok(userService.getUserByUsername(authService.getAuthentication().getName()).get());
     }
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/get-user-basket")

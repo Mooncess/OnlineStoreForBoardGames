@@ -15,6 +15,7 @@ import ru.mooncess.onlinestore.service.UserService;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("comment")
 @RequiredArgsConstructor

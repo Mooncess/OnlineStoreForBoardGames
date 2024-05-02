@@ -1,21 +1,19 @@
 package ru.mooncess.serverjwt.controllers;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.*;
 import ru.mooncess.serverjwt.domain.JwtResponse;
 import ru.mooncess.serverjwt.domain.RefreshJwtRequest;
 import ru.mooncess.serverjwt.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import ru.mooncess.serverjwt.domain.JwtRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("api/auth")
 @RequiredArgsConstructor
@@ -25,6 +23,8 @@ public class AuthController {
 
     @PostMapping("login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) {
+        System.out.println("Пришел запрос на вход");
+        System.out.println(authRequest.getLogin() + " " + authRequest.getPassword());
         final JwtResponse token = authService.login(authRequest);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly");
@@ -79,13 +79,17 @@ public class AuthController {
 
     private String getCookieValue(HttpServletRequest request, String cookieName) {
         Cookie[] cookies = request.getCookies();
+        System.out.println("Смотрим куки");
         if (cookies != null) {
+            System.out.println("В куки что-то есть");
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(cookieName)) {
+                    System.out.println(cookie.getValue());
                     return cookie.getValue();
                 }
             }
         }
+        System.out.println("again null");
         return null;
     }
 }
