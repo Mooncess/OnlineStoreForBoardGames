@@ -1,7 +1,20 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
 .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%; /* Ширина футера равна ширине экрана */
     background-color: #333;
     color: white;
-    padding: 20px;
+    padding: 20px 0px;
     text-align: center;
 }
 
