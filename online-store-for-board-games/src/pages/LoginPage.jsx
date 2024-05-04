@@ -26,6 +26,10 @@ const LoginPage = () => {
         }
     };
 
+    const handleRegistrationRedirect = () => {
+        navigate('/registration');
+    };
+
     return (
         <div>
             <MyNavbar />
@@ -33,7 +37,8 @@ const LoginPage = () => {
                 <h2>Вход</h2>
                 <input type="login" placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
                 <input type="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button onClick={handleLogin}>Войти</button>
+                <button onClick={handleLogin} className="black-button">Войти</button>
+                <button onClick={handleRegistrationRedirect} className="black-button">Зарегистрироваться</button> {/* Кнопка для перехода на страницу регистрации */}
             </div>
             <MyFooter />
         </div>

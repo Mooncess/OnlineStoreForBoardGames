@@ -3,11 +3,13 @@ import axiosInstance from '../utils/axiosInstance';
 import { Navigate } from 'react-router-dom';
 import MyFooter from '../components/MyFooter';
 import MyNavbar from '../components/MyNavbar';
+import { useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
     const [profileData, setProfileData] = useState(null);
     const [redirectToLogin, setRedirectToLogin] = useState(false);
     const [redirectToAdminPanel, setRedirectToAdminPanel] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -30,12 +32,27 @@ const ProfilePage = () => {
         fetchProfileData();
     }, []);
 
+    const handleLogout = async () => {
+        try {
+            const response = await axiosInstance.get('http://localhost:8099/api/auth/logout', { withCredentials: true });
+            if (response.status === 204) {
+                console.log("Успешный выход");
+                navigate('/test'); // перенаправляем на главную страницу после выхода
+            } else {
+                console.log("Что-то пошло не так");
+                // Обработка ошибки выхода
+            }
+        } catch (error) {
+            console.error('Ошибка при запросе на сервер:', error);
+        }
+    };
+
     if (redirectToLogin) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/login" />;
     }
 
     if (redirectToAdminPanel) {
-        return <Navigate to="/admin/admin-panel" replace />;
+        return <Navigate to="/admin/admin-panel" />;
     }
 
     return (
@@ -48,6 +65,7 @@ const ProfilePage = () => {
                     <p>Фамилия: {profileData.lastName}</p>
                     <p>Персональная скидка: {profileData.personalDiscount}%</p>
                     <p>Номер телефона: {profileData.phoneNumber}</p>
+                    <button onClick={handleLogout}>Выход</button>
                 </div>
             )}
             <MyFooter />

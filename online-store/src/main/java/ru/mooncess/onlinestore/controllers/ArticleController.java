@@ -24,7 +24,8 @@ public class ArticleController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/admin/create")
-    public ResponseEntity<?> createArticle(@RequestPart ArticleCreateDTO articleCreateDTO, @RequestPart MultipartFile image) {
+    public ResponseEntity<?> createArticle(@RequestPart ArticleCreateDTO articleCreateDTO, @RequestPart(required = false) MultipartFile image) {
+        System.out.println(articleCreateDTO.getName());
         Optional<Article> optionalArticle = articleService.createArticle(articleCreateDTO, image);
         if (optionalArticle.isPresent()) {
             Article createdArticle = optionalArticle.get();

@@ -9,6 +9,7 @@ import ArtilceManagementPage from './pages/ArticleManagementPage';
 import CategoryManagementPage from './pages/CategoryManagementPage';
 import OrderManagementPage from './pages/OrderManagementPage';
 import UserManagementPage from './pages/UserManagementPage';
+import CreateArticlePage from './pages/CreateArticlePage';
 
 function App() {
   return (
@@ -16,13 +17,14 @@ function App() {
         <Routes>
           <Route path="/test" element={<TestPage/>} />
           <Route path="/login" element={<LoginPage/>} />
-          <Route path="/register" element={<RegistrationPage/>} />
+          <Route path="/registration" element={<RegistrationPage/>} />
           <Route path="/profile" element={<ProfilePage/>} />
           <Route path="/admin/admin-panel" element={<AdminPanelPage/>} />
-          <Route path="/admin/artilce-management" element={<ArtilceManagementPage/>} />
+          <Route path="/admin/article-management" element={<ArtilceManagementPage/>} />
           <Route path="/admin/category-management" element={<CategoryManagementPage/>} />
           <Route path="/admin/order-management" element={<OrderManagementPage/>} />
           <Route path="/admin/user-management" element={<UserManagementPage/>} />
+          <Route path="/admin/create-article" element={<CreateArticlePage/>} />
         </Routes>
     </Router>
   );

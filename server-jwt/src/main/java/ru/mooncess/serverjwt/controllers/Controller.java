@@ -13,6 +13,7 @@ import ru.mooncess.serverjwt.service.UserService;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("api")
 @RequiredArgsConstructor

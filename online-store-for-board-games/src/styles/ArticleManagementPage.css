@@ -1,0 +1,74 @@
+.admin-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    max-height: 400px; /* Установить максимальную высоту для прокрутки */
+    overflow: auto; /* Добавить прокрутку */
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.admin-links input[type="text"],
+.admin-links button {
+    margin-right: 10px;
+}
+
+.admin-links button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 5px 8px; /* Уменьшить размер кнопок */
+    font-size: 12px; /* Уменьшить размер текста кнопок */
+    cursor: pointer;
+}
+
+.sort-buttons {
+    display: flex;
+    margin: 20px;
+}
+
+.sort-buttons button {
+    margin-right: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 5px 8px; /* Уменьшить размер кнопок */
+    font-size: 12px; /* Уменьшить размер текста кнопок */
+    cursor: pointer;
+}
+
+table {
+    width: 95%; /* Чуть меньше по ширине */
+    border-collapse: collapse;
+    margin: auto;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: left;
+    font-size: 16px; /* Увеличить размер текста */
+}
+
+.create-new-article-button {
+    background-color: black; /* Цвет кнопки */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.create-new-article-button:hover {
+    background-color: #333; /* Цвет при наведении */
+}
+
+.main-content {
+    padding-bottom: 50px; /* Обеспечивает пространство для footer */
+}

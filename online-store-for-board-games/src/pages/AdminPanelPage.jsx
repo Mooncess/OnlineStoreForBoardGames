@@ -28,10 +28,10 @@ const AdminPanelPage = () => {
         <div>
             <MyNavbar />
             <div className="admin-links">
-                <Link to="/article-management">Управление статьями</Link>
-                <Link to="/category-management">Управление категориями</Link>
-                <Link to="/order-management">Управление заказами</Link>
-                <Link to="/user-management">Управление пользователями</Link>
+                <Link to="/admin/article-management">Управление товарами</Link>
+                <Link to="/admin/category-management">Управление категориями</Link>
+                <Link to="/admin/order-management">Управление заказами</Link>
+                <Link to="/admin/user-management">Управление пользователями</Link>
                 <a href="#" onClick={handleLogout}>Выход</a> {/* Ссылка для выхода */}
             </div>
             <MyFooter />
