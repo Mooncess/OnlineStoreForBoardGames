@@ -10,6 +10,7 @@ import CategoryManagementPage from './pages/CategoryManagementPage';
 import OrderManagementPage from './pages/OrderManagementPage';
 import UserManagementPage from './pages/UserManagementPage';
 import CreateArticlePage from './pages/CreateArticlePage';
+import CatalogPage from './pages/CatalogPage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/admin/order-management" element={<OrderManagementPage/>} />
           <Route path="/admin/user-management" element={<UserManagementPage/>} />
           <Route path="/admin/create-article" element={<CreateArticlePage/>} />
+          <Route path="/" element={<CatalogPage/>} />
         </Routes>
     </Router>
   );

@@ -12,6 +12,7 @@ import ru.mooncess.onlinestore.exception.AppError;
 import ru.mooncess.onlinestore.service.ArticleService;
 import ru.mooncess.onlinestore.service.ImageService;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true")
@@ -96,5 +97,15 @@ public class ArticleController {
             return ResponseEntity.ok(articleService.findArticleByReservesDesc());
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/image/{articleId}")
+    public ResponseEntity<byte[]> getImageForArticle(@PathVariable Long articleId) {
+        try {
+            byte[] imageBytes = imageService.getImageByURN(articleService.getArticleById(articleId).get().getImageURN());
+            return ResponseEntity.ok().body(imageBytes);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Можно также возвращать подходящий ответ в случае ошибки
+        }
     }
 }

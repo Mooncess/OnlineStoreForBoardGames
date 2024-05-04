@@ -1,0 +1,36 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import '../styles/ArticleItem.css';
+
+const ArticleItem = ({ id, name, oldPrice, actualPrice, imageURN }) => {
+    const [imageUrl, setImageUrl] = useState('');
+
+    useEffect(() => {
+        const fetchImage = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/article/image/${id}`, { responseType: 'blob' });
+                const imageUrl = URL.createObjectURL(response.data);
+                setImageUrl(imageUrl);
+            } catch (error) {
+                console.error('Ошибка при загрузке изображения:', error);
+            }
+        };
+
+        fetchImage();
+    }, [id]);
+
+    return (
+        <div className="article-item">
+            <div className="image-container">
+                <img src={imageUrl} alt={name} />
+            </div>
+            <div className="name">{name}</div>
+            <div className="prices">
+                <span className="old-price">{oldPrice}</span>
+                <span className="actual-price">{actualPrice} ₽</span>
+            </div>
+        </div>
+    );
+};
+
+export default ArticleItem;

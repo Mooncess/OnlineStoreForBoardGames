@@ -3,11 +3,13 @@ package ru.mooncess.onlinestore.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.mooncess.onlinestore.entity.Article;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Random;
 import java.util.UUID;
@@ -51,6 +53,18 @@ public class ImageService {
             // Обрабатываем ошибку сохранения изображения
             e.printStackTrace();
             return null; // или выбрасываем исключение
+        }
+    }
+
+    public byte[] getImageByURN(String imageURN) throws IOException {
+        File file = new File(UPLOAD_DIR + imageURN);
+
+        if (file.exists()) {
+            try (FileInputStream fis = new FileInputStream(file)) {
+                return FileCopyUtils.copyToByteArray(fis);
+            }
+        } else {
+            throw new IOException("Файл изображения не найден: " + imageURN);
         }
     }
 
