@@ -9,8 +9,8 @@ const MyNavbar = () => {
             <ul>
                 <li><Link to="/">Каталог</Link></li>
                 <li><Link to="/profile">Профиль</Link></li>
-                <li><Link to="/favorites">Избранное</Link></li>
-                <li><Link to="/cart">Корзина</Link></li>
+                <li><Link to="/wish-list">Избранное</Link></li>
+                <li><Link to="/basket">Корзина</Link></li>
             </ul>
         </nav>
     );

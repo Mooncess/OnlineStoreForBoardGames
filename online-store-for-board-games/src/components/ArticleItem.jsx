@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import '../styles/ArticleItem.css';
 
 const ArticleItem = ({ id, name, oldPrice, actualPrice, imageURN }) => {
@@ -20,6 +21,7 @@ const ArticleItem = ({ id, name, oldPrice, actualPrice, imageURN }) => {
     }, [id]);
 
     return (
+        <Link to={`/article/${id}`} style={{ textDecoration: 'none' }}>
         <div className="article-item">
             <div className="image-container">
                 <img src={imageUrl} alt={name} />
@@ -30,6 +32,7 @@ const ArticleItem = ({ id, name, oldPrice, actualPrice, imageURN }) => {
                 <span className="actual-price">{actualPrice} ₽</span>
             </div>
         </div>
+        </Link>
     );
 };
 

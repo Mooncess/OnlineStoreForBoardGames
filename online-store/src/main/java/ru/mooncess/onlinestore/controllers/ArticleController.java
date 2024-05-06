@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.mooncess.onlinestore.dto.ArticleCreateDTO;
 import ru.mooncess.onlinestore.entity.Article;
+import ru.mooncess.onlinestore.entity.Category;
 import ru.mooncess.onlinestore.exception.AppError;
 import ru.mooncess.onlinestore.service.ArticleService;
 import ru.mooncess.onlinestore.service.ImageService;
@@ -55,6 +56,17 @@ public class ArticleController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getArticleById(@PathVariable Long id) {
+        Optional<Article> optionalArticle = articleService.getArticleById(id);
+        if (optionalArticle.isPresent()) {
+            Article article = optionalArticle.get();
+            return ResponseEntity.ok(article);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping()

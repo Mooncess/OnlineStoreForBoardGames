@@ -1,0 +1,35 @@
+.main-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.wishlist-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+}
+
+.wishlist-item h3 {
+    margin-top: 0;
+}
+
+.wishlist-item p {
+    margin: 5px 0;
+}
+
+.wishlist-item button {
+    padding: 5px 10px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.wishlist-item button:hover {
+    background-color: #0056b3;
+}
