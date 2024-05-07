@@ -18,6 +18,7 @@ axiosInstance.interceptors.response.use(response => {
         withCredentials: true,
       });
       console.log("Обновил токен");
+      console.log(response.status);
 
       // Повторяем исходный запрос с обновленным токеном
       return axios(error.config);

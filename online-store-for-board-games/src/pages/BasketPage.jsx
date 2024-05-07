@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import axiosInstance from '../utils/axiosInstance';
 import MyFooter from '../components/MyFooter';
 import MyNavbar from '../components/MyNavbar';
@@ -21,14 +20,19 @@ const BasketPage = () => {
         fetchBasketData();
     }, []);
 
+    // Весь остальной код остается неизменным
+
     const decreaseQuantity = async (itemId) => {
         try {
-            await axiosInstance.put(`http://localhost:8080/action/decrease-count-of-basket-item?articleId=${itemId}`);
-            setBasketItems(prevState =>
-                prevState.map(item =>
-                    item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
-                )
-            );
+            if (basketItems.find(item => item.article.id === itemId)?.quantity === 1) {
+                removeItemFromBasket(itemId);
+            } else {
+                await axiosInstance.put(`http://localhost:8080/action/decrease-count-of-basket-item?articleId=${itemId}`);
+                const updatedItems = basketItems.map(item =>
+                    item.article.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
+                );
+                setBasketItems(updatedItems);
+            }
         } catch (error) {
             console.error('Ошибка при уменьшении количества товара в корзине:', error);
         }
@@ -37,20 +41,20 @@ const BasketPage = () => {
     const increaseQuantity = async (itemId) => {
         try {
             await axiosInstance.put(`http://localhost:8080/action/increase-count-of-basket-item?articleId=${itemId}`);
-            setBasketItems(prevState =>
-                prevState.map(item =>
-                    item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-                )
+            const updatedItems = basketItems.map(item =>
+                item.article.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
             );
+            setBasketItems(updatedItems);
         } catch (error) {
             console.error('Ошибка при увеличении количества товара в корзине:', error);
         }
     };
-
+    
     const removeItemFromBasket = async (itemId) => {
         try {
-            await axiosInstance.post(`http://localhost:8080/action/remove-from-basket?articleId=${itemId}`);
-            setBasketItems(basketItems.filter(item => item.id !== itemId));
+            await axiosInstance.delete(`http://localhost:8080/action/delete-from-basket?articleId=${itemId}`);
+            const updatedItems = basketItems.filter(item => item.article.id !== itemId);
+            setBasketItems(updatedItems);
             alert('Товар удален из корзины!');
         } catch (error) {
             console.error('Ошибка при удалении товара из корзины:', error);

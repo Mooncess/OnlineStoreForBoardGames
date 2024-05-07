@@ -71,8 +71,10 @@ public class AuthController {
     @PostMapping("token")
     public ResponseEntity<JwtResponse> getNewAccessToken(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         String refreshToken = getCookieValue(servletRequest, "refresh");
+        System.out.println("Прилетел запрос на обновление аксес токена " + refreshToken);
 
         final JwtResponse token = authService.getAccessToken(refreshToken);
+        System.out.println("New TOKEN: " + token.getAccessToken());
         HttpHeaders headers = new HttpHeaders();
         headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly");
 

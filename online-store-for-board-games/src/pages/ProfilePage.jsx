@@ -26,7 +26,13 @@ const ProfilePage = () => {
                 }
             } catch (error) {
                 console.error('Ошибка при запросе данных профиля на сервер:', error);
-                setRedirectToLogin(true);
+                if (error.response.status === 403) {
+                    console.log("Перенаправили на админ-панель УСТ");
+                    setRedirectToAdminPanel(true);
+                }
+                else {
+                    setRedirectToLogin(true);
+                }
             }
         };
 

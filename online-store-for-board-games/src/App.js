@@ -36,10 +36,10 @@ function AdminRoute({ element }) {
     };
     
     checkAdminRole();
-  }, []); // Пустой массив зависимостей означает, что эффект будет выполнен только 1 раз после монтирования компонента
+  }, []);
 
   if (isAdmin === null) {
-    return <div>Loading...</div>; // Можно добавить отображение загрузочного состояния
+    return <div>Loading...</div>;
   } else if (isAdmin) {
     console.log(isAdmin);
     return element;
