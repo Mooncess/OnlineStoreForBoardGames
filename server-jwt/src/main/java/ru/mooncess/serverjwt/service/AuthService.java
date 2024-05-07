@@ -80,4 +80,8 @@ public class AuthService {
         userService.createNewUser(registrationRequest);
         return ResponseEntity.ok().build();
     }
+
+    public boolean isAdmin(String accessToken) {
+        return jwtProvider.getAccessClaims(accessToken).get("role", String.class).equals("ADMIN");
+    }
 }

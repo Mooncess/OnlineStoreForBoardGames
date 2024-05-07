@@ -1,6 +1,7 @@
 package ru.mooncess.serverjwt.controllers;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.mooncess.serverjwt.domain.JwtResponse;
 import ru.mooncess.serverjwt.domain.RefreshJwtRequest;
@@ -95,6 +96,19 @@ public class AuthController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(token);
+    }
+
+    @GetMapping("is-admin")
+    public ResponseEntity<?> isAdmin(HttpServletRequest servletRequest) {
+        String accessToken = getCookieValue(servletRequest, "access");
+        if (authService.isAdmin(accessToken)) {
+            System.out.println("Это админ");
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        else {
+            System.out.println("Это не админ");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
     private String getCookieValue(HttpServletRequest request, String cookieName) {

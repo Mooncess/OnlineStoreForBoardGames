@@ -7,28 +7,6 @@ const axiosInstance = axios.create({
   },
 });
 
-// axiosInstance.interceptors.response.use(response => {
-//   return response;
-// }, async error => {
-//   if (error.response && error.response.status === 401) {
-//     console.log('Ошибка 401: Пользователь не авторизован. Пожалуйста, выполните вход.');
-
-//     try {
-//       const response = await axios.post('http://localhost:8099/api/auth/token', null, {
-//         withCredentials: true,
-//       });
-
-//       return axios(error.config);
-//     } catch (refreshError) {
-//       console.error('Ошибка при обновлении токена:', refreshError);
-//       // Можно выполнить дополнительные действия при ошибке обновления токена
-//       return Promise.reject(refreshError);
-//     }
-//   }
-
-//   return Promise.reject(error);
-// });
-
 axiosInstance.interceptors.response.use(response => {
   return response;
 }, async error => {
@@ -39,6 +17,7 @@ axiosInstance.interceptors.response.use(response => {
       const response = await axios.post('http://localhost:8099/api/auth/token', null, {
         withCredentials: true,
       });
+      console.log("Обновил токен");
 
       // Повторяем исходный запрос с обновленным токеном
       return axios(error.config);

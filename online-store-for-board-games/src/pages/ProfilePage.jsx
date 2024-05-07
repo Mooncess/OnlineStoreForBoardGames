@@ -19,6 +19,7 @@ const ProfilePage = () => {
                 if (response.status === 200) {
                     setProfileData(response.data);
                 } else if (response.status === 403) {
+                    console.log("Перенаправили на админ-панель УСТ");
                     setRedirectToAdminPanel(true);
                 } else if (response.status === 500) {
                     setRedirectToLogin(true);
@@ -52,6 +53,7 @@ const ProfilePage = () => {
     }
 
     if (redirectToAdminPanel) {
+        console.log("Перенаправили на админ-панель");
         return <Navigate to="/admin/admin-panel" />;
     }
 

@@ -13,6 +13,7 @@ const CatalogPage = () => {
     const [name, setName] = useState('');
     const [sort, setSort] = useState('');
     const [category, setCategory] = useState('');
+    const [currentCategory, setCurrentCategory] = useState('Настольные игры');
 
     useEffect(() => {
         const fetchArticles = async () => {
@@ -32,6 +33,13 @@ const CatalogPage = () => {
                 console.error('Ошибка при запросе категорий:', error);
             }
         };
+
+        if (category) {
+            const selectedCategory = categories.find(cat => cat.id === category);
+            setCurrentCategory(selectedCategory ? selectedCategory.name : 'Настольные игры');
+        } else {
+            setCurrentCategory('Настольные игры');
+        }
 
         fetchArticles();
         fetchCategories();
@@ -57,6 +65,7 @@ const CatalogPage = () => {
                     <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
                     <button onClick={handleSearch}>Поиск</button>
                 </div>
+                <div className="current-category">{currentCategory}</div>
                 <div className="sort-dropdown">
                     <select onChange={(e) => handleSort(e.target.value)}>
                         <option value="0">Сортировка...</option>
@@ -76,16 +85,20 @@ const CatalogPage = () => {
                         </ul>
                     </div>
                     <div className="article-list">
-                        {articles.map(article => (
-                            <ArticleItem
-                                key={article.id}
-                                id={article.id}
-                                name={article.name}
-                                oldPrice={article.oldPrice}
-                                actualPrice={article.actualPrice}
-                                imageURN={article.imageURN}
-                            />
-                        ))}
+                        {articles.length === 0 ? (
+                            <p>Ничего не найдено</p>
+                        ) : (
+                            articles.map(article => (
+                                <ArticleItem
+                                    key={article.id}
+                                    id={article.id}
+                                    name={article.name}
+                                    oldPrice={article.oldPrice}
+                                    actualPrice={article.actualPrice}
+                                    imageURN={article.imageURN}
+                                />
+                            ))
+                        )}
                     </div>
                 </div>
             </div>
