@@ -16,6 +16,7 @@ import CatalogPage from './pages/CatalogPage';
 import ArticlePage from './pages/ArtilcePage';
 import WishListPage from './pages/WishListPage';
 import BasketPage from './pages/BasketPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 function AdminRoute({ element }) {
   const [isAdmin, setIsAdmin] = useState(null);
@@ -67,6 +68,7 @@ function App() {
         <Route path="/article/:id" element={<ArticlePage />} />
         <Route path="/wish-list" element={<WishListPage />} />
         <Route path="/basket" element={<BasketPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
     </Router>
   );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 import MyFooter from '../components/MyFooter';
 import MyNavbar from '../components/MyNavbar';
@@ -6,6 +7,7 @@ import '../styles/BasketPage.css';
 
 const BasketPage = () => {
     const [basketItems, setBasketItems] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchBasketData = async () => {
@@ -86,7 +88,7 @@ const BasketPage = () => {
                 ))}
                 <div className="total-price">
                     <h3>Итоговая стоимость: {getTotalPrice()}</h3>
-                    <button onClick={() => alert('Перейти к оформлению')}>Перейти к оформлению</button>
+                    <button onClick={() => navigate('/checkout')}>Перейти к оформлению</button>
                 </div>
             </div>
             <MyFooter />
