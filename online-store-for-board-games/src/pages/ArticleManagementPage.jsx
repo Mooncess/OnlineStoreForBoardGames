@@ -83,7 +83,7 @@ const ArticleManagementPage = () => {
                                 <td>{article.actualPrice}</td>
                                 <td>{article.reserves}</td>
                                 <td>{article.category.map(cat => cat.name).join(', ')}</td>
-                                <td><Link to={`/UpdateArticlePage/${article.id}`}>Обновить</Link></td>
+                                <td><Link to={`/admin/edit-article/${article.id}`}>Обновить</Link></td>
                             </tr>
                         ))}
                     </tbody>

@@ -137,7 +137,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/admin/order/{id}")
+    @GetMapping("/admin/order-by-id/{id}")
     public ResponseEntity<?> getOrderByIdForAdmin(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getOrderByIdForAdmin(id));
     }
@@ -148,7 +148,7 @@ public class UserController {
         return ResponseEntity.ok(orderService.getOrderByIdAndUserId(id, userService.getUserByUsername(authService.getAuthentication().getName()).get()));
     }
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/admin/order/{username}")
+    @GetMapping("/admin/order-by-username/{username}")
     public ResponseEntity<?> getOrderByUserForAdmin(@PathVariable String username) {
         Optional<List<Order>> list = orderService.getOrderByUserForAdmin(username);
         if (list.isPresent()) {

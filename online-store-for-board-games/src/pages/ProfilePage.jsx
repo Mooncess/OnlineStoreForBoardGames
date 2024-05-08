@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../utils/axiosInstance';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import MyFooter from '../components/MyFooter';
 import MyNavbar from '../components/MyNavbar';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ const ProfilePage = () => {
     const [profileData, setProfileData] = useState(null);
     const [redirectToLogin, setRedirectToLogin] = useState(false);
     const [redirectToAdminPanel, setRedirectToAdminPanel] = useState(false);
+    const [userOrders, setUserOrders] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,7 +37,17 @@ const ProfilePage = () => {
             }
         };
 
+        const fetchUserOrders = async () => {
+            try {
+                const response = await axiosInstance.get('http://localhost:8080/action/get-user-order');
+                setUserOrders(response.data);
+            } catch (error) {
+                console.error('Error fetching user orders:', error);
+            }
+        };
+
         fetchProfileData();
+        fetchUserOrders();
     }, []);
 
     const handleLogout = async () => {
@@ -73,8 +84,35 @@ const ProfilePage = () => {
                     <p>Фамилия: {profileData.lastName}</p>
                     <p>Персональная скидка: {profileData.personalDiscount}%</p>
                     <p>Номер телефона: {profileData.phoneNumber}</p>
+                    <button onClick={() => navigate('/profile/comments')}>Мои отзывы</button>
                     <button onClick={handleLogout}>Выход</button>
                 </div>
+            )}
+
+            <h2>Мои заказы</h2>
+            {Array.isArray(userOrders) && (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order Number</th>
+                            <th>Address</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {userOrders.map(order => (
+                            <tr key={order.id}>
+                                <td>
+                                    <Link to={`/profile/order/${order.id}`}>{order.orderNumber}</Link>
+                                </td>
+                                <td>{order.address}</td>
+                                <td>{order.orderDate}</td>
+                                <td>{order.status.name}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             )}
             <MyFooter />
         </div>

@@ -17,6 +17,9 @@ import ArticlePage from './pages/ArtilcePage';
 import WishListPage from './pages/WishListPage';
 import BasketPage from './pages/BasketPage';
 import CheckoutPage from './pages/CheckoutPage';
+import MyCommentPage from './pages/MyCommentPage';
+import OrderPage from './pages/OrderPage';
+import EditArticlePage from './pages/EditArticlePage';
 
 function AdminRoute({ element }) {
   const [isAdmin, setIsAdmin] = useState(null);
@@ -60,6 +63,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/admin/admin-panel" element={<AdminRoute element={<AdminPanelPage />} />} />
         <Route path="/admin/article-management" element={<AdminRoute element={<ArtilceManagementPage />} />} />
+        <Route path="/admin/edit-article/:id" element={<AdminRoute element={<EditArticlePage />} />} />
         <Route path="/admin/category-management" element={<AdminRoute element={<CategoryManagementPage />} />} />
         <Route path="/admin/order-management" element={<AdminRoute element={<OrderManagementPage />} />} />
         <Route path="/admin/user-management" element={<AdminRoute element={<UserManagementPage />} />} />
@@ -69,6 +73,9 @@ function App() {
         <Route path="/wish-list" element={<WishListPage />} />
         <Route path="/basket" element={<BasketPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/profile/comments" element={<MyCommentPage />} />
+        <Route path="/profile/order/:id" element={<OrderPage />} />
+
       </Routes>
     </Router>
   );
