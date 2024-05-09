@@ -121,7 +121,10 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/create-order")
     public ResponseEntity<?> createOrder(@RequestParam String address) {
-        return ResponseEntity.ok(orderService.createOrder(address, userService.getUserByUsername(authService.getAuthentication().getName()).get()));
+        if (orderService.createOrder(address, userService.getUserByUsername(authService.getAuthentication().getName()).get()).isEmpty()){
+            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Incorrect data"), HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok().build();
     }
 
     @PreAuthorize("hasAuthority('USER')")

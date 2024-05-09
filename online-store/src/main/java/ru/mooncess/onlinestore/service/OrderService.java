@@ -14,10 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +23,7 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final ArticleService articleService;
 
     public Optional<Order> createOrder(String address, User user) {
         try {
@@ -42,19 +40,24 @@ public class OrderService {
 
             double total = 0;
             List<OrderItem> list = new ArrayList<>();
+            HashMap<Long, Integer> quantityOfItem = new HashMap<>();
 
             for(int i = 0; i < basketItemList.size(); i++){
                 OrderItem orderItem = new OrderItem();
                 orderItem.setArticleId(basketItemList.get(i).getArticle().getId());
                 orderItem.setPrice(basketItemList.get(i).getArticle().getActualPrice());
-                orderItem.setQuantity(basketItemList.get(i).getQuantity());
+
+                if (basketItemList.get(i).getQuantity() <= articleService.getArticleById(orderItem.getArticleId()).get().getReserves()) {
+                    orderItem.setQuantity(basketItemList.get(i).getQuantity());
+                    quantityOfItem.put(orderItem.getArticleId(), orderItem.getQuantity());
+                }
+                else {
+                    return Optional.empty();
+                }
+
                 orderItemRepository.save(orderItem);
                 list.add(orderItem);
 
-                // Проверка на запасы + их уменьшение
-
-//                Article article = basketItemList.get(i).getArticle();
-//                article.setReserves(article.getReserves() - 1);
                 total = total + (orderItem.getPrice() * orderItem.getQuantity());
             }
 
@@ -67,7 +70,11 @@ public class OrderService {
             user.getBasketList().clear();
             userRepository.save(user);
 
-            return Optional.of(orderRepository.save(order));
+            order = orderRepository.save(order);
+
+            quantityOfItem.forEach(articleService::updateArticleReserves);
+
+            return Optional.of(order);
         } catch (Exception e) {
             return Optional.empty();
         }

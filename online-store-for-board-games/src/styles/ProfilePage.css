@@ -1,0 +1,65 @@
+/* Profile Page Styles */
+.profile-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.profile-details {
+    flex: 1;
+    padding: 20px;
+    margin-left: 5%;
+}
+
+.profile-details p {
+    margin: 0 0 10px; /* Устанавливаем отступ снизу для параграфов */
+}
+
+.profile-column {
+    margin-right: 24px;
+}
+
+.profile-buttons button {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.profile-buttons button:last-child {
+    margin-right: 0; /* Удаляем правый отступ для последней кнопки */
+}
+
+.profile-orders table {
+    border-collapse: collapse; /* Убираем разделительные линии в таблице */
+    width: 90%;
+}
+
+.profile-orders th,
+.profile-orders td {
+    padding: 8px;
+}
+
+.profile-orders th {
+    text-align: left;
+    border-bottom: 2px solid black; /* Добавляем нижнюю границу к заголовкам таблицы */
+}
+
+.profile-orders td {
+    border-bottom: 1px solid #ddd; /* Добавляем нижнюю границу к ячейкам таблицы */
+}
+
+.profile-orders h2 {
+    text-align: center;
+}
+
+.order-link a {
+    text-decoration: none;
+    color: black;
+}
+
+.order-link a:hover {
+    color: gray;
+}

@@ -69,6 +69,6 @@ th, td {
     background-color: #333; /* Цвет при наведении */
 }
 
-.main-content {
-    padding-bottom: 50px; /* Обеспечивает пространство для footer */
-}
+/* .main-content {
+    padding-bottom: 50px;
+} */

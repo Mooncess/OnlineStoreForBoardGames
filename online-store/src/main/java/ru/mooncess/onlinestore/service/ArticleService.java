@@ -126,7 +126,7 @@ public class ArticleService {
     public boolean isArticleInBasket(Long articleId, User user) {
         List<BasketItem> basketlist = user.getBasketList();
         return basketlist.stream()
-                .anyMatch(a -> a.getId().equals(articleId));
+                .anyMatch(a -> a.getArticle().getId().equals(articleId));
     }
 
     public boolean addToWishlist(Long articleId, User user) {
@@ -165,6 +165,19 @@ public class ArticleService {
                 updatedArticle.setId(id);
                 updatedArticle.setImageURN(optionalArticle.get().getImageURN());
                 return Optional.of(articleRepository.save(updatedArticle));
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Article> updateArticleReserves(Long id, Integer count) {
+        Optional<Article> optionalArticle = articleRepository.findById(id);
+        if (optionalArticle.isPresent()) {
+            try {
+                optionalArticle.get().setReserves(optionalArticle.get().getReserves() - count);
+                return Optional.of(articleRepository.save(optionalArticle.get()));
             } catch (Exception e) {
                 return Optional.empty();
             }

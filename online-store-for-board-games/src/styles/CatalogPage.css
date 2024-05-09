@@ -1,7 +1,6 @@
 /* CatalogPage.css */
 
 .catalog-container {
-    /* max-width: 1200px; */
     margin: 0 auto;
     padding: 20px;
     display: flex;
@@ -58,10 +57,6 @@ select {
     border-color: #999;
 }
 
-.main-content {
-    padding: 20px 0;
-}
-
 .search-bar {
     display: flex;
     justify-content: center;
@@ -85,6 +80,3 @@ select {
     color: white;
     cursor: pointer;
 }
-
-/* Остальные стили оставьте без изменений */
-

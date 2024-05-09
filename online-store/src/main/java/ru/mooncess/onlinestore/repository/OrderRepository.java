@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    @Query("SELECT o FROM Order o WHERE o.buyer= :buyer ORDER BY o.orderDate ASC")
+    @Query("SELECT o FROM Order o WHERE o.buyer= :buyer ORDER BY o.orderDate DESC")
     List<Order> findAllOrderByBuyerSortByDate(@Param("buyer") User buyer);
-    @Query("SELECT o FROM Order o ORDER BY o.orderDate ASC")
+    @Query("SELECT o FROM Order o ORDER BY o.orderDate DESC")
     List<Order> findAllSortByDate();
     Optional<Order> getByIdAndBuyer(Long id, User buyer);
 }

@@ -4,6 +4,7 @@ import { Navigate, Link } from 'react-router-dom';
 import MyFooter from '../components/MyFooter';
 import MyNavbar from '../components/MyNavbar';
 import { useNavigate } from 'react-router-dom';
+import '../styles/ProfilePage.css'; // Импорт стилей
 
 const ProfilePage = () => {
     const [profileData, setProfileData] = useState(null);
@@ -27,7 +28,7 @@ const ProfilePage = () => {
                 }
             } catch (error) {
                 console.error('Ошибка при запросе данных профиля на сервер:', error);
-                if (error.response.status === 403) {
+                if (error.response && error.response.status === 403) {
                     console.log("Перенаправили на админ-панель УСТ");
                     setRedirectToAdminPanel(true);
                 }
@@ -42,7 +43,7 @@ const ProfilePage = () => {
                 const response = await axiosInstance.get('http://localhost:8080/action/get-user-order');
                 setUserOrders(response.data);
             } catch (error) {
-                console.error('Error fetching user orders:', error);
+                console.error('Ошибка при получении заказов пользователя:', error);
             }
         };
 
@@ -55,10 +56,9 @@ const ProfilePage = () => {
             const response = await axiosInstance.get('http://localhost:8099/api/auth/logout', { withCredentials: true });
             if (response.status === 204) {
                 console.log("Успешный выход");
-                navigate('/test'); // перенаправляем на главную страницу после выхода
+                navigate('/test');
             } else {
                 console.log("Что-то пошло не так");
-                // Обработка ошибки выхода
             }
         } catch (error) {
             console.error('Ошибка при запросе на сервер:', error);
@@ -77,43 +77,53 @@ const ProfilePage = () => {
     return (
         <div>
             <MyNavbar />
+            <div className='main-content'>
             {profileData && (
-                <div>
-                    <h2>Профиль</h2>
-                    <p>Имя: {profileData.firstName}</p>
-                    <p>Фамилия: {profileData.lastName}</p>
-                    <p>Персональная скидка: {profileData.personalDiscount}%</p>
-                    <p>Номер телефона: {profileData.phoneNumber}</p>
-                    <button onClick={() => navigate('/profile/comments')}>Мои отзывы</button>
-                    <button onClick={handleLogout}>Выход</button>
+                <div className="profile-details">
+                    <h1>Профиль</h1>
+                    <div className="profile-container">
+                        <div className="profile-column">
+                            <p className="profile-name">Имя: {profileData.firstName}</p>
+                            <p className="profile-surname">Фамилия: {profileData.lastName}</p>
+                        </div>
+                        <div className="profile-column">
+                            <p className="profile-phone">Номер телефона: {profileData.phoneNumber}</p>
+                            <p className="profile-discount">Персональная скидка: {profileData.personalDiscount}%</p>
+                        </div>
+                    </div>
+                    <button onClick={() => navigate('/profile/comments')} className="black-button">Мои отзывы</button>
+                    <button onClick={handleLogout} className="black-button">Выход</button>
                 </div>
             )}
-
-            <h2>Мои заказы</h2>
+            
             {Array.isArray(userOrders) && (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Order Number</th>
-                            <th>Address</th>
-                            <th>Order Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {userOrders.map(order => (
-                            <tr key={order.id}>
-                                <td>
-                                    <Link to={`/profile/order/${order.id}`}>{order.orderNumber}</Link>
-                                </td>
-                                <td>{order.address}</td>
-                                <td>{order.orderDate}</td>
-                                <td>{order.status.name}</td>
+                <div className="profile-orders">
+                    <h2>Мои заказы</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Номер заказа</th>
+                                <th>Адрес</th>
+                                <th>Дата заказа</th>
+                                <th>Статус</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {userOrders.map(order => (
+                                <tr key={order.id}>
+                                    <td className='order-link'>
+                                        <Link to={`/profile/order/${order.id}`}>{order.orderNumber}</Link>
+                                    </td>
+                                    <td>{order.address}</td>
+                                    <td>{order.orderDate}</td>
+                                    <td>{order.status.name}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
+            </div>
             <MyFooter />
         </div>
     );

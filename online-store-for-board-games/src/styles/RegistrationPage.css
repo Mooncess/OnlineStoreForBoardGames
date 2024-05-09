@@ -3,8 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 50vh;
-    margin-top: 50px;
+    margin-bottom: 140px;
 }
 
 .black-button {
@@ -15,13 +14,14 @@
     margin: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
+    text-decoration: none;
 }
 
 .black-button:hover {
     background-color: #333333;
 }
 
-input {
+.reg-input {
     width: 300px;
     height: 40px;
     margin: 10px;
