@@ -52,6 +52,7 @@ public class CommentController {
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/create")
     public ResponseEntity<?> createComment(@RequestBody CommentCreateDTO commentCreateDTO) {
+        System.out.println("Запрос на создание комментария");
         Optional<Comment> optionalComment = commentService.createComment(commentCreateDTO, userService.getUserByUsername(authService.getAuthentication().getName()).get());
         if (optionalComment.isPresent()) {
             Comment createdComment = optionalComment.get();

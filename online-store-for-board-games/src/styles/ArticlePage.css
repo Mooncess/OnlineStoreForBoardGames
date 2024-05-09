@@ -1,12 +1,7 @@
-/* .main-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-} */
-
-h2 {
+.article-name-h2 {
     color: #333;
     font-size: 24px;
+    margin-left: 5%;
     margin-bottom: 10px;
 }
 
@@ -16,39 +11,98 @@ h2 {
 }
 
 .product-image {
-    flex: 1;
     margin-right: 20px;
+    margin-left: 5%;
+    width: 360px;
+    padding-top: 24px;
 }
 
 .product-image img {
     max-width: 100%;
+    min-width: 360px;
     height: auto;
     border: 1px solid #ccc;
 }
 
 .product-info {
-    margin-top: 20px;
+    text-align: center; /* Выравнивание по центру */
+    min-width: none; /* Увеличение ширины контейнера */
+    margin: 0 auto; /* Центрирование контейнера по горизонтали */
+    justify-content: center;
+    padding: 36px;    
 }
 
 .product-info p {
-    margin-bottom: 10px;
+    font-size: 28px; /* Увеличение размера текста */
 }
 
-hr {
-    margin: 20px 0;
-    border: 0;
-    border-top: 1px solid #ccc;
+.pia {
+    color: #666; /* Серый цвет текста */
+    font-style: italic; /* Установка курсива */
 }
 
-button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 8px 16px;
-    border: none;
+.button-container {
+    display: flex;
+    flex-direction: column; /* Располагаем кнопки друг под другом */
+}
+
+.button-container button {
+    width: 240px; /* Ширина кнопок */
+    height: 64px; /* Высота кнопок */
+    background-color: #000; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    border: none; /* Убираем рамку */
     cursor: pointer;
-    margin-right: 10px;
+    margin-top: 20px; /* Отступ сверху */
+    transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #0056b3;
+.button-container-b:hover {
+    background-color: #333333;
+}
+
+.comments-section::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: #ccc; /* Цвет линии */
+    margin-bottom: 20px; /* Расстояние между линией и содержимым */
+}
+
+.comment::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: #ccc; /* Цвет линии */
+    margin-bottom: 20px; /* Расстояние между линией и содержимым */
+}
+
+.write-comment {
+    background-color: black;
+    color: #fff; /* Белый цвет текста */
+    padding: 12px 24px; /* Увеличение внутренних отступов */
+    margin: 20px 0px; /* Дополнительный отступ сверху */
+    border: none; /* Удаление границы */
+    cursor: pointer; /* Стиль курсора */
+}
+
+.write-comment:hover {
+    background-color: #333; /* Изменение цвета при наведении курсора */
+}
+
+.comment-panel textarea {
+    width: 100%; /* Ширина textarea на всю ширину */
+    height: 150px; /* Установите желаемую высоту */
+    padding: 10px; /* Поля вокруг текста внутри textarea */
+    font-family: Arial, sans-serif; /* Изменение шрифта на более мягкий */
+}
+
+.comment-panel button {
+    background-color: black;
+    color: #fff; /* Белый цвет текста */
+    border: none; /* Убрать границы */
+    padding: 8px 16px; /* Отступы */
+    cursor: pointer; /* Индикатор курсора */
 }

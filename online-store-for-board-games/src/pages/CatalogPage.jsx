@@ -9,7 +9,6 @@ const CatalogPage = () => {
     const [articles, setArticles] = useState([]);
     const [categories, setCategories] = useState([]);
     const [searchText, setSearchText] = useState('');
-    const [sortType, setSortType] = useState(0);
     const [name, setName] = useState('');
     const [sort, setSort] = useState('');
     const [category, setCategory] = useState('');
@@ -28,7 +27,7 @@ const CatalogPage = () => {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/category');
-                setCategories(response.data);
+                setCategories([{ id: '', name: 'Настольные игры' }, ...response.data]);
             } catch (error) {
                 console.error('Ошибка при запросе категорий:', error);
             }
@@ -95,6 +94,7 @@ const CatalogPage = () => {
                                     name={article.name}
                                     oldPrice={article.oldPrice}
                                     actualPrice={article.actualPrice}
+                                    reserves={article.reserves}
                                     imageURN={article.imageURN}
                                 />
                             ))

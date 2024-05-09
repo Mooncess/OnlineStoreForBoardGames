@@ -10,9 +10,11 @@
 }
 
 .category-panel {
-    flex: 0 0 200px;
+    flex: 0 0 180px;
+    text-align: left;
     background-color: #ccc;
-    padding: 20px;
+    margin-left: 40px;
+    padding-left: 8px;
 }
 
 .article-list {
@@ -40,8 +42,8 @@ li:hover {
 }
 
 .sort-dropdown {
-    text-align: right;
-    margin-right: 100px;
+    margin-left: 5%;
+    margin-top: 12px;
 }
 
 select {
@@ -61,7 +63,7 @@ select {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin: 20px 0px;
 }
 
 .search-bar input {
@@ -79,4 +81,10 @@ select {
     background-color: black;
     color: white;
     cursor: pointer;
+}
+
+.current-category {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 5%;
 }
