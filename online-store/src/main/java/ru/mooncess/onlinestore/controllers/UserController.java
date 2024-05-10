@@ -57,6 +57,40 @@ public class UserController {
             return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Incorrect data"), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/is-article-in-basket")
+    public ResponseEntity<?> isArticleInBasket(@RequestParam Long articleId) {
+        System.out.println(articleId);
+        if(articleService.isArticleInBasket(articleId, userService.getUserByUsername(authService.getAuthentication().getName()).get())) {
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/is-article-in-wishlist")
+    public ResponseEntity<?> isArticleInWishList(@RequestParam Long articleId) {
+        if(articleService.isArticleInWishList(articleId, userService.getUserByUsername(authService.getAuthentication().getName()).get())) {
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
+    @GetMapping("/check-reserves")
+    public ResponseEntity<?> checkReserves(@RequestParam Long articleId) {
+        if(articleService.checkReserves(articleId)) {
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+    }
+
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/increase-count-of-basket-item")
     public ResponseEntity<?> increaseCountOfBasketItem(@RequestParam Long articleId) {

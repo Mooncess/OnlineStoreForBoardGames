@@ -129,6 +129,17 @@ public class ArticleService {
                 .anyMatch(a -> a.getArticle().getId().equals(articleId));
     }
 
+    public boolean isArticleInWishList(Long articleId, User user) {
+        List<Article> list = user.getWishList();
+        return list.stream()
+                .anyMatch(a -> a.getId().equals(articleId));
+    }
+
+    public boolean checkReserves(Long articleId) {
+        Article article = articleRepository.getById(articleId);
+        return article.getReserves() > 0;
+    }
+
     public boolean addToWishlist(Long articleId, User user) {
         try {
             Optional<Article> optional = articleRepository.findById(articleId);
@@ -158,7 +169,7 @@ public class ArticleService {
         Optional<Article> optionalArticle = articleRepository.findById(id);
         if (optionalArticle.isPresent()) {
             try {
-                if (!image.isEmpty()) {
+                if (image != null) {
                     imageService.updateImage(optionalArticle.get(), image);
                 }
                 Article updatedArticle = mapper.articleCreateDtoToEntity(article);

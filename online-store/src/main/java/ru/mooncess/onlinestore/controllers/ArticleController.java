@@ -41,9 +41,9 @@ public class ArticleController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/admin/update/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable Long id,
-                                            @RequestPart ArticleCreateDTO articleCreateDTO,
-                                            @RequestPart MultipartFile image) {
-        Optional<Article> update = articleService.updateArticle(id, articleCreateDTO, image);
+                                            @RequestPart ArticleCreateDTO articleUpdateDTO,
+                                            @RequestPart(required = false) MultipartFile image) {
+        Optional<Article> update = articleService.updateArticle(id, articleUpdateDTO, image);
         if (update.isPresent()) {
             return ResponseEntity.ok(update.get());
         }
