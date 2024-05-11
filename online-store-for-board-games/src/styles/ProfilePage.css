@@ -63,3 +63,11 @@
 .order-link a:hover {
     color: gray;
 }
+
+/* Добавляем стили для мобильных устройств (ширина меньше 768px) */
+@media screen and (max-width: 768px) {
+    .profile-order-table th, .profile-order-table td {
+        padding: 0px;
+        font-size: 12px;
+    }
+}

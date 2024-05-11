@@ -1,3 +1,5 @@
+// OrderManagementPage.js
+
 import React, { useState, useEffect } from 'react';
 import MyFooter from '../components/MyFooter';
 import MyNavbar from '../components/MyNavbar';
@@ -8,7 +10,7 @@ const OrderManagementPage = () => {
     const [orders, setOrders] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [orderStatuses, setOrderStatuses] = useState([]);
-    const [selectedStatus, setSelectedStatus] = useState(undefined);
+    const [selectedStatusesMap, setSelectedStatusesMap] = useState({});
 
     const fetchOrderStatuses = async () => {
         try {
@@ -71,13 +73,20 @@ const OrderManagementPage = () => {
         }
     };
 
+    const handleSelectStatus = (orderId, statusId) => {
+        setSelectedStatusesMap({
+            ...selectedStatusesMap,
+            [orderId]: statusId,
+        });
+    };
+
     return (
         <div>
             <MyNavbar />
             <div className="main-content">
-                <div className="search-bar">
-                    <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-                    <button onClick={handleSearch}>Искать по Email</button>
+                <div className="order-search-bar">
+                    <input className="order-input" type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+                    <button className='order-management-button' onClick={handleSearch}>Искать по Email</button>
                 </div>
                 <div className="order-table">
                     <table>
@@ -103,7 +112,7 @@ const OrderManagementPage = () => {
                                     <td>{order.status.name}</td>
                                     <td>{order.buyer.username}</td>
                                     <td>
-                                        <select value={selectedStatus} onChange={(e) => setSelectedStatus(Number(e.target.value))}>
+                                        <select className='select-status' value={selectedStatusesMap[order.id] || ''} onChange={(e) => handleSelectStatus(order.id, Number(e.target.value))}>
                                             <option value="">Выберите статус</option>
                                             {orderStatuses.map(status => (
                                                 <option key={status.id} value={status.id}>{status.name}</option>
@@ -111,7 +120,7 @@ const OrderManagementPage = () => {
                                         </select>
                                     </td>
                                     <td>
-                                        <button onClick={() => handleUpdateStatus(order.id, selectedStatus)}>Обновить статус</button>
+                                        <button className='order-management-button' onClick={() => handleUpdateStatus(order.id, selectedStatusesMap[order.id])}>Обновить статус</button>
                                     </td>
                                 </tr>
                             ))}

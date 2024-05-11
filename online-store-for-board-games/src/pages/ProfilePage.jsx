@@ -56,7 +56,7 @@ const ProfilePage = () => {
             const response = await axiosInstance.get('http://localhost:8099/api/auth/logout', { withCredentials: true });
             if (response.status === 204) {
                 console.log("Успешный выход");
-                navigate('/test');
+                navigate('/');
             } else {
                 console.log("Что-то пошло не так");
             }
@@ -99,7 +99,7 @@ const ProfilePage = () => {
             {Array.isArray(userOrders) && (
                 <div className="profile-orders">
                     <h2>Мои заказы</h2>
-                    <table>
+                    <table className='profile-order-table'>
                         <thead>
                             <tr>
                                 <th>Номер заказа</th>

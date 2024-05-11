@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../utils/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 import MyFooter from '../components/MyFooter';
 import MyNavbar from '../components/MyNavbar';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../styles/WishListPage.css';
 
 const WishListPage = () => {
     const [wishListItems, setWishListItems] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkAdminStatus = async () => {
+            try {
+                const response = await axiosInstance.get('http://localhost:8099/api/auth/is-admin', { withCredentials: true });
+                if (response.status === 200) {
+                    navigate('/admin/admin-panel');
+                }
+            } catch (error) {
+                console.error('Ошибка при проверке статуса администратора:', error);
+            }
+        };
+
+        checkAdminStatus();
+    }, []);
 
     useEffect(() => {
         const fetchWishListData = async () => {
@@ -44,7 +61,7 @@ const WishListPage = () => {
             <MyNavbar />
             <div className="main-content">
                 {wishListItems && (
-                    <h1 className='wish-list-h1'>Список желаний</h1>
+                    <h1 className='wish-list-h1'>Избранное</h1>
                 )}
                 <div className='wish-list-container'>
                 {wishListItems && wishListItems.map(item => (

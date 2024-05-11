@@ -15,7 +15,6 @@ const OrderPage = () => {
                 const response = await axiosInstance.get(`http://localhost:8080/action/order/${id}`);
                 const updatedOrderInfo = { ...response.data };
 
-                // Fetch article name for each item in the order
                 const updatedOrderItemList = await Promise.all(
                     updatedOrderInfo.orderItemList.map(async item => {
                         const articleResponse = await axiosInstance.get(`http://localhost:8080/article/${item.articleId}`);
@@ -36,51 +35,58 @@ const OrderPage = () => {
     return (
         <div>
             <MyNavbar />
-            <div className="order-info">
-                {orderInfo ? (
-                    <>
-                        <div>
-                            <h2>Номер заказа: {orderInfo.orderNumber}</h2>
-                            Дата заказа: {orderInfo.orderDate}
-                        </div>
-                        <div>
-                            Адрес доставки: {orderInfo.address}
-                        </div>
-                        <div>
-                            <h3>Товары:</h3>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Наименование товара</th>
-                                        <th>Количество</th>
-                                        <th>Цена</th>
-                                        <th>Итого</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {orderInfo.orderItemList.map(item => (
-                                        <tr key={item.id}>
-                                            <td>{item.articleName}</td>
-                                            <td>{item.quantity}</td>
-                                            <td>{item.price}</td>
-                                            <td>{item.quantity * item.price}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+            <div className='main-content'>
+                <div className="order-info">
+                    {orderInfo ? (
+                        <>
                             <div>
-                                Скидка: {1 - (orderInfo.total / orderInfo.orderItemList.reduce((acc, item) => acc + item.quantity * item.price, 0))}
-                                <br />
-                                Итоговая сумма заказа: {orderInfo.total}
+                                <h2 className='user-order-h2'>Номер заказа: {orderInfo.orderNumber}</h2>
+                                <p className="order-date">Дата заказа: {orderInfo.orderDate}</p>
                             </div>
-                        </div>
-                        <div>
-                            Текущий статус: {orderInfo.status.name}
-                        </div>
-                    </>
-                ) : (
-                    <p>Загрузка информации о заказе...</p>
-                )}
+                            <div>
+                                Адрес доставки: {orderInfo.address}
+                            </div>
+                            <div>
+                                <h3>Товары:</h3>
+                                <table className='user-order-table'>
+                                    <thead className='user-order-thead'>
+                                        <tr>
+                                            <th className='user-order-th'>Наименование товара</th>
+                                            <th className='user-order-th'>Количество</th>
+                                            <th className='user-order-th'>Цена</th>
+                                            <th className='user-order-th'>Итого</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {orderInfo.orderItemList.map(item => (
+                                            <tr key={item.id}>
+                                                <td className='user-order-td'>{item.articleName}</td>
+                                                <td className='user-order-td'>{item.quantity}</td>
+                                                <td className='user-order-td'>{item.price} ₽</td>
+                                                <td className='user-order-td'>{item.quantity * item.price} ₽</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <p className="discount">
+                                        Скидка: {1 - (orderInfo.total / orderInfo.orderItemList.reduce((acc, item) => acc + item.quantity * item.price, 0))} %
+                                    </p>
+                                    <p>
+                                        Итоговая сумма заказа: <span className="total-price">{orderInfo.total} ₽</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <p className="order-status">
+                                    Текущий статус: {orderInfo.status.name}
+                                </p>
+                            </div>
+                        </>
+                    ) : (
+                        <p>Загрузка информации о заказе...</p>
+                    )}
+                </div>
             </div>
             <MyFooter />
         </div>

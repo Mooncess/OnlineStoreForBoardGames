@@ -1,74 +1,101 @@
-.admin-links {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-    max-height: 400px; /* Установить максимальную высоту для прокрутки */
-    overflow: auto; /* Добавить прокрутку */
+.article-management-search-bar {
+    text-align: center; /* Размещаем по центру */
+    margin-bottom: 20px;
 }
 
-.search-bar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.admin-links input[type="text"],
-.admin-links button {
+.article-management-input {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-width: 200px;
+    width: 300px;
     margin-right: 10px;
+    height: 30px;
 }
 
-.admin-links button {
+.order-management-button {
     background-color: black;
     color: white;
+    padding: 10px 20px;
     border: none;
-    padding: 5px 8px; /* Уменьшить размер кнопок */
-    font-size: 12px; /* Уменьшить размер текста кнопок */
     cursor: pointer;
 }
 
 .sort-buttons {
     display: flex;
-    margin: 20px;
+    justify-content: space-around;
 }
 
-.sort-buttons button {
-    margin-right: 10px;
-    background-color: black;
-    color: white;
-    border: none;
-    padding: 5px 8px; /* Уменьшить размер кнопок */
-    font-size: 12px; /* Уменьшить размер текста кнопок */
+.sort-buttons-ex {
+    width: 200px; /* Задаем одинаковую ширину кнопкам */
+    height: 40px; /* Высота кнопок сортировки */
+    background-color: black; /* Цвет кнопок сортировки */
+    color: white; /* Цвет текста кнопок */
+    border: none; /* Убираем рамку */
     cursor: pointer;
-}
-
-table {
-    width: 95%; /* Чуть меньше по ширине */
-    border-collapse: collapse;
-    margin: auto;
-}
-
-th, td {
-    border: 1px solid black;
-    padding: 5px;
-    text-align: left;
-    font-size: 16px; /* Увеличить размер текста */
 }
 
 .create-new-article-button {
-    background-color: black; /* Цвет кнопки */
+    width: 200px;
+    height: 40px;
+    background-color: #386868; /* Оранжевый цвет */
     color: white;
     border: none;
-    padding: 10px 20px;
-    margin: 10px 0;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
 .create-new-article-button:hover {
-    background-color: #333; /* Цвет при наведении */
+    background-color: #426838; /* Оранжевый цвет */
 }
 
-/* .main-content {
-    padding-bottom: 50px;
-} */
+.article-table {
+    margin-top: 20px;
+}
+
+.article-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.article-table th, .article-table td {
+    padding: 8px;
+    text-align: center;
+}
+
+.article-table th {
+    background-color: #dedede;
+}
+
+.article-table a {
+    text-decoration: none; /* Убираем подчеркивание ссылки */
+    color: dodgerblue; /* Цвет ссылки */
+}
+
+.article-table a:hover {
+    color: #0069d9; /* Цвет ссылки при наведении */
+}
+
+.delete-article-button {
+    background-color: black; /* Цвет кнопок сортировки */
+    color: white; /* Цвет текста кнопок */
+    border: none; /* Убираем рамку */
+    cursor: pointer;
+}
+
+/* Добавляем стили для мобильных устройств (ширина меньше 768px) */
+@media screen and (max-width: 768px) {
+    .sort-buttons-ex, .create-new-article-button {
+        width: 150px;
+        font-size: 8px;
+    }
+
+    .article-table th, .article-table td {
+        padding: 0px;
+        font-size: 8px;
+    }
+
+    .delete-article-button {
+        width: auto;
+        font-size: 8px;
+    }
+}

@@ -1,55 +1,62 @@
 .create-article-container {
-    max-width: 800px;
-    margin: 40px auto;
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 20px;
 }
 
-h2 {
-    margin-top: 0;
-}
-
-input[type="text"],
-input[type="number"] {
-    width: 90%;
-    height: 30px;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.category-checkboxes {
+.create-article-container h2 {
+    text-align: center;
     margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
 }
 
-.category-checkboxes label {
-    display: block;
+.create-article-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.create-article-container input {
+    width: 100%;
+    padding: 8px;
     margin-bottom: 10px;
 }
 
-.category-checkboxes input[type="checkbox"] {
-    margin-right: 10px;
-    width: 10px;
-    height: 10px;
+.create-article-container .category-checkboxes {
+    margin-bottom: 10px;
 }
 
-.black-button {
+.create-article-container .category-checkboxes label {
+    margin-right: 20px;
+}
+
+.create-article-container button {
+    width: 100%;
+    padding: 10px;
     background-color: #000;
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
     cursor: pointer;
 }
 
-.black-button:hover {
+.create-article-container button:hover {
     background-color: #333;
+}
+
+.category-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.category-checkboxes label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    white-space: nowrap; /* Prevents text wrapping */
+    overflow: hidden;   /* Hides any overflowing text */
+    text-overflow: ellipsis;  /* Displays an ellipsis (...) to indicate text overflow */
+}
+
+.category-checkboxes input[type="checkbox"] {
+    margin-right: 8px;
 }

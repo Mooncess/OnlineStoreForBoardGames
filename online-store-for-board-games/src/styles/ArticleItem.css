@@ -42,11 +42,11 @@
 }
 
 .article-item.no-reserves {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(201, 201, 201, 0.709);
 }
 
 .unavailable-text {
-    color: #aaa;
+    color: #000000;
     font-style: italic;
     font-weight: bold;
 }

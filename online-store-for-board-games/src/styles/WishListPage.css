@@ -58,3 +58,26 @@
 .article-link a:hover {
     color: gray;
 }
+
+/* Добавляем стили для мобильных устройств (ширина меньше 768px) */
+@media screen and (max-width: 768px) {
+    .wish-list-container {
+        width: 100%;
+    }
+
+    .wishlist-item h3 {
+        flex: 1;
+        margin-right: 10px;
+        font-size: 12px;
+    }
+    
+    .wishlist-item p {
+        margin-right: 5px;
+        font-size: 12px;
+    }
+    
+    .wishlist-item button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}

@@ -30,3 +30,6 @@ html {
   min-height: 100%;
 }
 
+.social-icons a {
+  margin: 0px 10px;
+}

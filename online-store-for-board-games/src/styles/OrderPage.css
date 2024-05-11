@@ -1,0 +1,52 @@
+/* OrderPage.css */
+
+.order-info {
+    margin: 20px;
+}
+
+.user-order-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-order-th, .user-order-td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+.user-order-thead {
+    background-color: #dedede;
+}
+
+.user-order-h2 {
+    margin-bottom: 10px;
+}
+
+.order-info {
+    margin-bottom: 20px;
+}
+
+.order-date {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.discount {
+    font-size: 1.2em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.total-price, .order-status {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+/* Добавляем стили для мобильных устройств (ширина меньше 768px) */
+@media screen and (max-width: 768px) {
+    .user-order-table th, .user-order-table td {
+        padding: 4px;
+        font-size: 14px;
+    }
+}

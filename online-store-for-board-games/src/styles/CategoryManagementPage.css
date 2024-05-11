@@ -1,0 +1,30 @@
+.category-management-h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-management-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.category-management-thead {
+    background-color: #dedede;
+}
+
+.category-management-input {
+    padding: 10px; /* Расширяем поле ввода */
+    margin-right: 10px;
+    border: 1px solid #ccc;
+}
+
+.category-management-button {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}

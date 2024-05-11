@@ -71,8 +71,9 @@ select {
     border: 1px solid #ccc;
     border-radius: 5px;
     min-width: 200px;
-    max-width: 500px;
+    width: 420px;
     margin-right: 10px;
+    height: 24px;
 }
 
 .search-bar button {
@@ -87,4 +88,29 @@ select {
     font-size: 24px;
     font-weight: bold;
     margin-left: 5%;
+}
+
+@media screen and (max-width: 768px) {
+    .catalog-container {
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column; /* Изменение направления контейнера на столбец */
+    }
+
+    .category-panel {
+        margin-left: 0; /* Убираем отступ слева */
+        margin-bottom: 10px;
+    }
+
+    .article-list {
+        margin-left: 0;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .category-panel,
+    .article-list {
+        width: 100%; /* Занимаем всю доступную ширину */
+    }
 }

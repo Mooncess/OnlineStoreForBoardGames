@@ -1,0 +1,75 @@
+/* BasketPage.css */
+
+.basket-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    position: relative; /* Добавляем позиционирование для псевдоэлемента */
+}
+
+.basket-item:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #222222; /* Цвет линии */
+}
+
+.basket-item h3 {
+    margin: 0;
+    overflow-wrap: break-word;
+    max-width: 200px;
+}
+.old-price {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.basket-item button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.total-price {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.total-price h3 {
+    margin: 0;
+}
+
+.total-price button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 24px;
+}
+
+.quantity-set {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-set button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px; /* Одинаковый отступ слева и справа */
+    cursor: pointer;
+}
+
+.quantity-set span {
+    margin: 0 15px; /* Одинаковый отступ слева и справа */
+}

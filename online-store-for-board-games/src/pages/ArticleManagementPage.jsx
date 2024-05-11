@@ -22,7 +22,7 @@ const ArticleManagementPage = () => {
 
     const handleSort = async (type) => {
         try {
-            const response = await axios.get(`http://localhost:8080/article?sort=${type}`);
+            const response = await axios.get(`http://localhost:8080/article/admin?sort=${type}`, {withCredentials: true});
             setArticles(response.data);
             setSortType(type);
         } catch (error) {
@@ -32,6 +32,16 @@ const ArticleManagementPage = () => {
 
     const handleCreateNewArticle = () => {
         navigate('/admin/create-article');
+    };
+
+    const handleDeleteArticle = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8080/article/admin/delete/${id}`, {withCredentials: true});
+            const updatedArticles = articles.filter(article => article.id !== id);
+            setArticles(updatedArticles);
+        } catch (error) {
+            console.error('Ошибка при удалении товара:', error);
+        }
     };
 
     useEffect(() => {
@@ -51,19 +61,19 @@ const ArticleManagementPage = () => {
         <div>
             <MyNavbar />
             <div className="main-content">
-            <div className="search-bar">
-                    <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-                    <button onClick={handleSearch}>Поиск</button>
+                <div className="article-management-search-bar">
+                    <input className='article-management-input' type="text" placeholder="Поиск по имени" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+                    <button className='order-management-button' onClick={handleSearch}>Поиск</button>
                 </div>
                 <div className="sort-buttons">
-                    <button onClick={() => handleSort(1)}>Сортировка по резервам (по возрастанию)</button>
-                    <button onClick={() => handleSort(2)}>Сортировка по резервам (по убыванию)</button>
-                    <button onClick={() => handleSort(0)}>Без сортировки</button>
+                    <button className='sort-buttons-ex' onClick={() => handleSort(1)}>Сортировка по резервам (по возрастанию)</button>
+                    <button className='sort-buttons-ex' onClick={() => handleSort(2)}>Сортировка по резервам (по убыванию)</button>
+                    <button className='sort-buttons-ex' onClick={() => handleSort(0)}>Без сортировки</button>
                     <button onClick={handleCreateNewArticle} className="create-new-article-button">Создать новый товар</button>
                 </div>
-            <div className="article-table">
-                <table>
-                    <thead>
+                <div className="article-table">
+                    <table>
+                        <thead>
                         <tr>
                             <th>ID</th>
                             <th>Имя</th>
@@ -72,23 +82,27 @@ const ArticleManagementPage = () => {
                             <th>Резервы</th>
                             <th>Категории</th>
                             <th>Обновить</th>
+                            <th>Удалить</th> {/* Новая колонка "Удалить" */}
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         {articles.map(article => (
                             <tr key={article.id}>
-                                <td>{article.id}</td>
-                                <td>{article.name}</td>
-                                <td>{article.oldPrice}</td>
-                                <td>{article.actualPrice}</td>
-                                <td>{article.reserves}</td>
-                                <td>{article.category.map(cat => cat.name).join(', ')}</td>
-                                <td><Link to={`/admin/edit-article/${article.id}`}>Обновить</Link></td>
+                            <td>{article.id}</td>
+                            <td>{article.name}</td>
+                            <td>{article.oldPrice}</td>
+                            <td>{article.actualPrice}</td>
+                            <td>{article.reserves}</td>
+                            <td>{article.category.map(cat => cat.name).join(', ')}</td>
+                            <td><Link to={`/admin/edit-article/${article.id}`}>Обновить</Link></td>
+                            <td>
+                                <button onClick={() => handleDeleteArticle(article.id)} className="delete-article-button">Удалить</button>
+                            </td>
                             </tr>
                         ))}
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <MyFooter />
         </div>

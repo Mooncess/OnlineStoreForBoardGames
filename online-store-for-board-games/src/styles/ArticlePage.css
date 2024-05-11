@@ -19,7 +19,7 @@
 
 .product-image img {
     max-width: 100%;
-    min-width: 360px;
+    min-width: 320px;
     height: auto;
     border: 1px solid #ccc;
 }
@@ -105,4 +105,29 @@
     border: none; /* Убрать границы */
     padding: 8px 16px; /* Отступы */
     cursor: pointer; /* Индикатор курсора */
+}
+
+.product-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+    .product-details {
+        flex-direction: column; /* Элементы располагаются в столбец */
+    }
+
+    .product-image {
+        width: 100%; /* Занимает всю доступную ширину */
+        max-width: 320px; /* Максимальная ширина изображения 320px */
+        margin-bottom: 20px; /* Добавляем отступ снизу */
+    }
+    
+    .product-image img {
+        max-width: 100%; /* Ограничение максимальной ширины картинки */
+        height: auto; /* Автоматическая высота для сохранения пропорций */
+        width: 100%;
+        max-width: 320px; /* Максимальная ширина картинки 320px */
+        height: 320px; /* Фиксированная высота картинки 320px */
+    }
 }

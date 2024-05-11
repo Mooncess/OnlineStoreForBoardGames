@@ -58,24 +58,25 @@ const CheckoutPage = () => {
         <div>
             <MyNavbar />
             <div className="main-content">
-                <h2>Оформление заказа</h2>
+                <h2 className="checkout-h2">Оформление заказа</h2>
                 {basketItems.map(item => (
-                    <div key={item.id} className="basket-item">
-                        <p>{item.article.name}, Старая цена: <span className="old-price">{item.article.oldPrice}</span>, Новая цена: {item.article.actualPrice}, Количество: {item.quantity}, Итого: {item.article.actualPrice * item.quantity}</p>
+                    <div key={item.id} className="checkout-item">
+                        <p>{item.article.name}, Цена: <span className="old-price">{item.article.oldPrice}</span> {item.article.actualPrice} ₽, Количество: {item.quantity}, Итого: {item.article.actualPrice * item.quantity}</p>
                     </div>
                 ))}
                 <div className="discount">
                     <p>Ваша персональная скидка: {personalDiscount}%</p>
                 </div>
                 <div className="total-price">
-                    <h3>Итоговая стоимость заказа: {getTotalPrice()}</h3>
+                    <h3>Итоговая стоимость заказа: {getTotalPrice()} ₽</h3>
                     <input
+                        className='deliv-address'
                         type="text"
                         value={deliveryAddress}
                         onChange={(e) => setDeliveryAddress(e.target.value)}
                         placeholder="Введите адрес доставки"
                     />
-                    <button onClick={handleCheckout}>Оформить</button>
+                    <button className='chechout-button' onClick={handleCheckout}>Оформить</button>
                 </div>
             </div>
             <MyFooter />

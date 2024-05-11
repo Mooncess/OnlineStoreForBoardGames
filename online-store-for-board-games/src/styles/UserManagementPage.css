@@ -1,0 +1,17 @@
+.user-management-h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-management-thead {
+    background-color: #dedede;
+}
+
+/* Добавляем стили для мобильных устройств (ширина меньше 768px) */
+@media screen and (max-width: 768px) {
+    .user-m-table th, .user-m-table td {
+        padding: 0px;
+        font-size: 10px;
+    }
+}

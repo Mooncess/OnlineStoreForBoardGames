@@ -61,8 +61,8 @@ const CatalogPage = () => {
             <MyNavbar />
             <div className="main-content">
                 <div className="search-bar">
-                    <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-                    <button onClick={handleSearch}>Поиск</button>
+                    <input type="text" placeholder="Поиск по имени" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+                    <button className='search-bar-button' onClick={handleSearch}>Поиск</button>
                 </div>
                 <div className="current-category">{currentCategory}</div>
                 <div className="sort-dropdown">

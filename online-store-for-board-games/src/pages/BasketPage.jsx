@@ -10,6 +10,19 @@ const BasketPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const checkAdminStatus = async () => {
+            try {
+                const response = await axiosInstance.get('http://localhost:8099/api/auth/is-admin', { withCredentials: true });
+                if (response.status === 200) {
+                    navigate('/admin/admin-panel');
+                }
+            } catch (error) {
+                console.error('Ошибка при проверке статуса администратора:', error);
+            }
+        };
+
+        checkAdminStatus();
+
         const fetchBasketData = async () => {
             try {
                 const response = await axiosInstance.get('http://localhost:8080/action/get-user-basket');
@@ -75,11 +88,11 @@ const BasketPage = () => {
                 {basketItems.map(item => (
                     <div key={item.id} className="basket-item">
                         <h3>{item.article.name}</h3>
-                        <p>Старая цена: <span className="old-price">{item.article.oldPrice}</span></p>
-                        <p>Новая цена: {item.article.actualPrice}</p>
-                        <div>
+                        <p><span className="old-price">{item.article.oldPrice}</span></p>
+                        <p>{item.article.actualPrice} ₽</p>
+                        <div className='quantity-set'>
                             <button onClick={() => decreaseQuantity(item.article.id)}> - </button>
-                            <span>Quantity: {item.quantity}</span>
+                            <span>{item.quantity}</span>
                             <button onClick={() => increaseQuantity(item.article.id)}> + </button>
                         </div>
                         <p>Итого: {item.article.actualPrice * item.quantity}</p>
@@ -87,8 +100,10 @@ const BasketPage = () => {
                     </div>
                 ))}
                 <div className="total-price">
-                    <h3>Итоговая стоимость: {getTotalPrice()}</h3>
-                    <button onClick={() => navigate('/checkout')}>Перейти к оформлению</button>
+                    <h3>Итоговая стоимость: {getTotalPrice()} ₽</h3>
+                    <button onClick={() => navigate('/checkout')} disabled={basketItems.length === 0}>
+                        Перейти к оформлению
+                    </button>
                 </div>
             </div>
             <MyFooter />

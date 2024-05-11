@@ -24,14 +24,15 @@ const UserManagementPage = () => {
         <div>
             <MyNavbar />
             <div className="main-content">
-                <table>
-                    <thead>
+                <h2 className='user-management-h2'>Пользователи</h2>
+                <table className='user-m-table'>
+                    <thead className='user-management-thead'>
                         <tr>
                             <th>Имя</th>
                             <th>Фамилия</th>
                             <th>Номер телефона</th>
                             <th>Личная скидка</th>
-                            <th>Имя пользователя</th>
+                            <th>Почта</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,7 +41,7 @@ const UserManagementPage = () => {
                                 <td>{user.firstName}</td>
                                 <td>{user.lastName}</td>
                                 <td>{user.phoneNumber}</td>
-                                <td>{user.personalDiscount}</td>
+                                <td>{user.personalDiscount}%</td>
                                 <td>{user.username}</td>
                             </tr>
                         ))}

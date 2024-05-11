@@ -1,0 +1,59 @@
+/* CheckoutPage.css */
+
+.checkout-h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.checkout-item {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.checkout-item::after {
+    content: "";
+    display: block;
+    border-bottom: 1px solid #ccc;
+    margin-top: 20px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.discount {
+    margin-top: 20px;
+}
+
+.discount p {
+    font-size: 16px;
+}
+
+.total-price {
+    margin-top: 20px;
+}
+
+.total-price h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.deliv-address {
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 5px;
+    width: 240px;
+    height: 30px;
+    border: 1px solid #ccc;
+}
+
+.chechout-button {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}

@@ -85,13 +85,14 @@ const CategoryManagementPage = () => {
         <div>
             <MyNavbar />
             <div className="main-content">
+                <h2 className='category-management-h2'>Категории</h2>
                 <div className="category-management-header">
-                    <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-                    <button onClick={handleCreateCategory}>Создать категорию</button>
+                    <input className='category-management-input' type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+                    <button className='category-management-button' onClick={handleCreateCategory}>Создать категорию</button>
                 </div>
                 <div className="category-table">
                     <table>
-                        <thead>
+                        <thead className='category-management-thead'>
                             <tr>
                                 <th>Наименование</th>
                                 <th>Обновить</th>
@@ -103,9 +104,9 @@ const CategoryManagementPage = () => {
                                 <tr key={category.id}>
                                     <td>{category.id === selectedCategoryId ? <input type="text" value={updateText} onChange={(e) => setUpdateText(e.target.value)} /> : category.name}</td>
                                     <td>
-                                        {category.id === selectedCategoryId ? <button onClick={confirmUpdateCategory}>Подтвердить</button> : <button onClick={() => handleUpdateCategory(category.id)}>Обновить</button>}
+                                        {category.id === selectedCategoryId ? <button className='category-management-button' onClick={confirmUpdateCategory}>Подтвердить</button> : <button className='category-management-button' onClick={() => handleUpdateCategory(category.id)}>Обновить</button>}
                                     </td>
-                                    <td><button onClick={() => handleDeleteCategory(category.id)}>Удалить</button></td>
+                                    <td><button className='category-management-button' onClick={() => handleDeleteCategory(category.id)}>Удалить</button></td>
                                 </tr>
                             ))}
                         </tbody>
