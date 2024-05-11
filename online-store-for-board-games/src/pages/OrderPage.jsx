@@ -70,7 +70,7 @@ const OrderPage = () => {
                                 </table>
                                 <div>
                                     <p className="discount">
-                                        Скидка: {1 - (orderInfo.total / orderInfo.orderItemList.reduce((acc, item) => acc + item.quantity * item.price, 0))} %
+                                        Скидка: {Math.floor(100 - ((orderInfo.total / orderInfo.orderItemList.reduce((acc, item) => acc + item.quantity * item.price, 0)) * 100))} %
                                     </p>
                                     <p>
                                         Итоговая сумма заказа: <span className="total-price">{orderInfo.total} ₽</span>

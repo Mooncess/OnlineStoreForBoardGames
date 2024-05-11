@@ -61,7 +61,7 @@ public class OrderService {
                 total = total + (orderItem.getPrice() * orderItem.getQuantity());
             }
 
-            if(user.getPersonalDiscount() != 0) order.setTotal(total * (user.getPersonalDiscount() / 100));
+            if(user.getPersonalDiscount() != 0) order.setTotal(total * (1 - ((double) user.getPersonalDiscount() / 100)));
             else order.setTotal(total);
 
             order.setOrderItemList(list);
@@ -116,8 +116,34 @@ public class OrderService {
         if (optionalOrder.isPresent()) {
             try {
                 Order updatedOrder = optionalOrder.get();
-                updatedOrder.setStatus(orderStatusService.getOrderStatusById(status).get());
-                return Optional.of(orderRepository.save(updatedOrder));
+                OrderStatus orderStatus = orderStatusService.getOrderStatusById(status).get();
+                updatedOrder.setStatus(orderStatus);
+                Order order = orderRepository.save(updatedOrder);
+                if (orderStatus.getId() == 5 || orderStatus.getId() == 6 || orderStatus.getId() == 7) {
+                    List<Order> list = orderRepository.findAllOrderByBuyerSortByDate(order.getBuyer());
+                    double totalCompletedOrdersPrice = 0.0;
+
+                    for (Order temp : list) {
+                        OrderStatus tempStatus = temp.getStatus();
+                        if (tempStatus.getId() == 7) {
+                            totalCompletedOrdersPrice += temp.getTotal();
+                        }
+                    }
+
+                    System.out.println(totalCompletedOrdersPrice);
+
+                    if (totalCompletedOrdersPrice >= 30000.0) {
+                        User user = userRepository.getById(order.getBuyer().getId());
+                        user.setPersonalDiscount((byte) 10);
+                        userRepository.save(user);
+                    }
+                    else if (totalCompletedOrdersPrice >= 15000.0) {
+                        User user = userRepository.getById(order.getBuyer().getId());
+                        user.setPersonalDiscount((byte) 5);
+                        userRepository.save(user);
+                    }
+                }
+                return Optional.of(order);
             } catch (Exception e) {
                 return Optional.empty();
             }

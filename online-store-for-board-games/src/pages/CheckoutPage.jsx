@@ -10,6 +10,8 @@ const CheckoutPage = () => {
     const [basketItems, setBasketItems] = useState([]);
     const [personalDiscount, setPersonalDiscount] = useState(0);
     const [deliveryAddress, setDeliveryAddress] = useState('');
+    const [checkoutError, setCheckoutError] = useState(false);
+    const [addressError, setAddressError] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,15 +44,21 @@ const CheckoutPage = () => {
 
     const handleCheckout = async () => {
         try {
-            const response = await axiosInstance.post(`http://localhost:8080/action/create-order?address=${deliveryAddress}`);
-            if (response.status === 200) {
-                alert('Заказ успешно оформлен!');
-                navigate('/profile');
+            if (!deliveryAddress.trim()) {
+                setAddressError(true); // Устанавливаем состояние ошибки для пустого адреса
             } else {
-                alert('Ошибка при оформлении заказа');
+                setAddressError(false); // Сбрасываем состояние ошибки
+                const response = await axiosInstance.post(`http://localhost:8080/action/create-order?address=${deliveryAddress}`);
+                if (response.status === 200) {
+                    alert('Заказ успешно оформлен!');
+                    navigate('/profile');
+                } else {
+                    alert('Ошибка при оформлении заказа');
+                }
             }
         } catch (error) {
             console.error('Ошибка при оформлении заказа:', error);
+            setCheckoutError(true);
         }
     };
 
@@ -78,6 +86,8 @@ const CheckoutPage = () => {
                     />
                     <button className='chechout-button' onClick={handleCheckout}>Оформить</button>
                 </div>
+                {checkoutError && <p style={{ color: 'red' }}>Ошибка при формировании заказа</p>}
+                {addressError && <p style={{ color: 'red' }}>Пожалуйста, введите адрес</p>}
             </div>
             <MyFooter />
         </div>
