@@ -4,7 +4,7 @@ FROM openjdk:17-alpine
 WORKDIR /app
 
 # Копируем файлы приложения в контейнер
-COPY target/server-jwt-0.0.1-SNAPSHOT.jar /app
+COPY server-jwt/target/server-jwt-0.0.1-SNAPSHOT.jar /app
 
 # Открываем порт, на котором будет работать приложение
 EXPOSE 8099
