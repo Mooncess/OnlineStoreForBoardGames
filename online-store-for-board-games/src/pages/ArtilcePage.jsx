@@ -126,6 +126,7 @@ const ArticlePage = () => {
                     <p>{article.description}</p>
                     <p className='pia'>Производитель: {article.producer}</p>
                     <p className='pia'>Рекомендованный возраст: {article.recommendedAge}+</p>
+                    <p className='pia'>Количество игроков: {article.quantityOfPlayers}</p>
                 </div>
                 <div className="comments-section">
                     <h3>Отзывы</h3>

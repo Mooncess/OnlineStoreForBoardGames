@@ -17,8 +17,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    @Value("${upload.dir}")
-    private String UPLOAD_DIR;
+    private final String UPLOAD_DIR = System.getProperty("user.dir").replace("\\", "/") + "/src/main/resources/static/";
 
     public String addImage(String fileName, MultipartFile image) {
         // Генерируем уникальное имя файла
@@ -57,6 +56,7 @@ public class ImageService {
     }
 
     public byte[] getImageByURN(String imageURN) throws IOException {
+        System.out.println(UPLOAD_DIR + imageURN);
         File file = new File(UPLOAD_DIR + imageURN);
 
         if (file.exists()) {

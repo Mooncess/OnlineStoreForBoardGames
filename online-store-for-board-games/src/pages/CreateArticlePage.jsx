@@ -97,7 +97,7 @@ const CreateArticlePage = () => {
                     <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Описание" />
                 </label>
                 <label>Количество игроков:
-                    <input type="number" value={quantityOfPlayers} onChange={(e) => setQuantityOfPlayers(parseInt(e.target.value))} placeholder="Количество игроков" />
+                    <input type="text" value={quantityOfPlayers} onChange={(e) => setQuantityOfPlayers(e.target.value)} placeholder="Количество игроков" />
                 </label>
                 <label>Время игры:
                     <input type="text" value={gameTime} onChange={(e) => setGameTime(e.target.value)} placeholder="Время игры" />

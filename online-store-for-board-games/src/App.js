@@ -20,6 +20,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import MyCommentPage from './pages/MyCommentPage';
 import OrderPage from './pages/OrderPage';
 import EditArticlePage from './pages/EditArticlePage';
+import CommentManagementPage from './pages/CommentManagementPage';
 
 function AdminRoute({ element }) {
   const [isAdmin, setIsAdmin] = useState(null);
@@ -68,6 +69,7 @@ function App() {
         <Route path="/admin/order-management" element={<AdminRoute element={<OrderManagementPage />} />} />
         <Route path="/admin/user-management" element={<AdminRoute element={<UserManagementPage />} />} />
         <Route path="/admin/create-article" element={<AdminRoute element={<CreateArticlePage />} />} />
+        <Route path="/admin/comment-management" element={<AdminRoute element={<CommentManagementPage />} />} />
         <Route path="/" element={<CatalogPage />} />
         <Route path="/article/:id" element={<ArticlePage />} />
         <Route path="/wish-list" element={<WishListPage />} />

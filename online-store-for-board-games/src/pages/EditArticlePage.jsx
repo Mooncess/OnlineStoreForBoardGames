@@ -128,7 +128,7 @@ const EditArticlePage = () => {
 
                 <label>
                     Количество игроков:
-                    <input type="number" value={articleData.quantityOfPlayers} onChange={(e) => setArticleData({...articleData, quantityOfPlayers: parseInt(e.target.value)})} placeholder="Количество игроков" />
+                    <input type="text" value={articleData.quantityOfPlayers} onChange={(e) => setArticleData({...articleData, quantityOfPlayers: e.target.value})} placeholder="Количество игроков" />
                 </label>
 
                 <label>

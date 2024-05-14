@@ -19,7 +19,7 @@ public class Article {
     private String name;
     private String description;
     @Column(name = "quantity_of_players")
-    private Short quantityOfPlayers;
+    private String quantityOfPlayers;
     @Column(name = "game_time")
     private String gameTime;
     @Column(name = "year_of_release")

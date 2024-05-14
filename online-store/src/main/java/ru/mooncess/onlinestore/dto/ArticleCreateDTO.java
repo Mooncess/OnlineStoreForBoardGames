@@ -13,7 +13,7 @@ import java.util.List;
 public class ArticleCreateDTO {
     private String name;
     private String description;
-    private Short quantityOfPlayers;
+    private String quantityOfPlayers;
     private String gameTime;
     private String yearOfRelease;
     private String producer;
