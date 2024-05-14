@@ -13,14 +13,14 @@ import ru.mooncess.serverjwt.service.UserService;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(maxAge = 3600, origins = "${client.url}", allowCredentials = "true")
 @RestController
 @RequestMapping("api")
 @RequiredArgsConstructor
 public class Controller {
     private final AuthService authService;
     private final UserService userService;
-    private final WebClient webClient = WebClient.create("http://localhost:8080");
+    private final WebClient webClient = WebClient.create("${app.server.url}");
 
     @PostMapping("/registration")
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationRequest registrationRequest) {

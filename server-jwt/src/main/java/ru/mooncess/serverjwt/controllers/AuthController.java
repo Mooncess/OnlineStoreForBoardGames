@@ -14,7 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(maxAge = 3600, origins = "${client.url}", allowCredentials = "true")
 @RestController
 @RequestMapping("api/auth")
 @RequiredArgsConstructor
@@ -104,20 +104,16 @@ public class AuthController {
     public ResponseEntity<?> isAdmin(HttpServletRequest servletRequest) {
         String accessToken = getCookieValue(servletRequest, "access");
         if (authService.isAdmin(accessToken)) {
-            System.out.println("Это админ");
             return ResponseEntity.status(HttpStatus.OK).build();
         }
         else {
-            System.out.println("Это не админ");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
     private String getCookieValue(HttpServletRequest request, String cookieName) {
         Cookie[] cookies = request.getCookies();
-        System.out.println("Смотрим куки");
         if (cookies != null) {
-            System.out.println("В куки что-то есть");
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(cookieName)) {
                     System.out.println(cookie.getValue());
@@ -125,7 +121,6 @@ public class AuthController {
                 }
             }
         }
-        System.out.println("again null");
         return null;
     }
 }
