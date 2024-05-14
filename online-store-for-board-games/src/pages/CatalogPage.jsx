@@ -17,7 +17,7 @@ const CatalogPage = () => {
     useEffect(() => {
         const fetchArticles = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/article/?category=${category}&sort=${sort}&name=${name}`);
+                const response = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/article/?category=${category}&sort=${sort}&name=${name}`);
                 setArticles(response.data);
             } catch (error) {
                 console.error('Ошибка при запросе товаров:', error);
@@ -26,7 +26,7 @@ const CatalogPage = () => {
 
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/category');
+                const response = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/category`);
                 setCategories([{ id: '', name: 'Настольные игры' }, ...response.data]);
             } catch (error) {
                 console.error('Ошибка при запросе категорий:', error);

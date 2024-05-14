@@ -13,7 +13,7 @@ const CategoryManagementPage = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/category');
+            const response = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/category`);
             setCategories(response.data);
         } catch (error) {
             console.error('Ошибка при запросе данных категорий:', error);
@@ -26,7 +26,7 @@ const CategoryManagementPage = () => {
 
     const handleCreateCategory = async () => {
         try {
-            const response = await axiosInstance.post(`http://localhost:8080/category/admin/create?nameOfCategory=${searchText}`, {
+            const response = await axiosInstance.post(`${process.env.REACT_APP_APP_SERVER_URL}/category/admin/create?nameOfCategory=${searchText}`, {
                 withCredentials: true,
             });
             if (response.status === 201) {
@@ -49,7 +49,7 @@ const CategoryManagementPage = () => {
 
     const confirmUpdateCategory = async () => {
         try {
-            const response = await axiosInstance.put(`http://localhost:8080/category/admin/update/${selectedCategoryId}?nameOfCategory=${updateText}`, {
+            const response = await axiosInstance.put(`${process.env.REACT_APP_APP_SERVER_URL}/category/admin/update/${selectedCategoryId}?nameOfCategory=${updateText}`, {
                 withCredentials: true,
             });
             if (response.status === 200) {
@@ -67,7 +67,7 @@ const CategoryManagementPage = () => {
 
     const handleDeleteCategory = async (categoryId) => {
         try {
-            const response = await axiosInstance.delete(`http://localhost:8080/category/admin/delete/${categoryId}`, {
+            const response = await axiosInstance.delete(`${process.env.REACT_APP_APP_SERVER_URL}/category/admin/delete/${categoryId}`, {
                 withCredentials: true,
             });
             if (response.status === 204) {

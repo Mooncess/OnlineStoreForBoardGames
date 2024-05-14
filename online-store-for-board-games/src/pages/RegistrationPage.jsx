@@ -27,7 +27,7 @@ const RegistrationPage = () => {
         }
 
         try {
-            const response = await axiosInstance.post('http://localhost:8099/api/registration', { username, password, firstName, lastName, phoneNumber });
+            const response = await axiosInstance.post(`${process.env.REACT_APP_JWT_SERVER_URL}/api/registration`, { username, password, firstName, lastName, phoneNumber });
 
             if (response.status === 200) {
                 console.log("Регистрация успешна");

@@ -16,7 +16,7 @@ axiosInstance.interceptors.response.use(
             console.log('Ошибка 401: Пользователь не авторизован. Пожалуйста, выполните вход.');
 
             try {
-                const response = await axios.post('http://localhost:8099/api/auth/token', null, {
+                const response = await axios.post(`${process.env.REACT_APP_APP_SERVER_URL}/api/auth/token`, null, {
                     withCredentials: true,
                 });
                 console.log("Обновил токен");
@@ -27,7 +27,7 @@ axiosInstance.interceptors.response.use(
             } catch (accessError) {
                 if (accessError.response && accessError.response.status === 500) {
                   try {
-                    const response = await axios.post('http://localhost:8099/api/auth/refresh', null, {
+                    const response = await axios.post(`${process.env.REACT_APP_APP_SERVER_URL}/api/auth/refresh`, null, {
                         withCredentials: true,
                     });
                     console.log("Обновил рефреш токен");

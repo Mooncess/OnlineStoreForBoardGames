@@ -10,7 +10,7 @@ const UserManagementPage = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8080/action/get-all-users');
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/get-all-users`);
                 setUsers(response.data);
             } catch (error) {
                 console.error('Ошибка при запросе данных пользователей:', error);

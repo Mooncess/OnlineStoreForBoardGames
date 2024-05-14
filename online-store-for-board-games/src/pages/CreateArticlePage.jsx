@@ -27,7 +27,7 @@ const CreateArticlePage = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/category');
+                const response = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/category`);
                 setCategories(response.data);
             } catch (error) {
                 console.error('Ошибка при запросе категорий:', error);
@@ -64,7 +64,7 @@ const CreateArticlePage = () => {
                 console.log('Отправляемые данные:');
                 console.log(formData);
     
-                const response = await axiosInstance.post('http://localhost:8080/article/admin/create', formData, {
+                const response = await axiosInstance.post(`${process.env.REACT_APP_APP_SERVER_URL}/article/admin/create`, formData, {
                     withCredentials: true,
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });

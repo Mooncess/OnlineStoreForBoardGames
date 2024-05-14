@@ -12,12 +12,12 @@ const OrderPage = () => {
     useEffect(() => {
         const fetchOrderInfo = async () => {
             try {
-                const response = await axiosInstance.get(`http://localhost:8080/action/order/${id}`);
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/order/${id}`);
                 const updatedOrderInfo = { ...response.data };
 
                 const updatedOrderItemList = await Promise.all(
                     updatedOrderInfo.orderItemList.map(async item => {
-                        const articleResponse = await axiosInstance.get(`http://localhost:8080/article/${item.articleId}`);
+                        const articleResponse = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/article/${item.articleId}`);
                         return { ...item, articleName: articleResponse.data.name };
                     })
                 );

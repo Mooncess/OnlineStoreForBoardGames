@@ -17,7 +17,7 @@ const CheckoutPage = () => {
     useEffect(() => {
         const fetchBasketData = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8080/action/get-user-basket');
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/get-user-basket`);
                 setBasketItems(response.data);
             } catch (error) {
                 console.error('Ошибка при запросе данных корзины:', error);
@@ -28,7 +28,7 @@ const CheckoutPage = () => {
 
         const fetchProfileData = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8080/action/profile');
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/profile`);
                 setPersonalDiscount(response.data.personalDiscount);
             } catch (error) {
                 console.error('Ошибка при запросе данных о пользователе:', error);
@@ -48,7 +48,7 @@ const CheckoutPage = () => {
                 setAddressError(true); // Устанавливаем состояние ошибки для пустого адреса
             } else {
                 setAddressError(false); // Сбрасываем состояние ошибки
-                const response = await axiosInstance.post(`http://localhost:8080/action/create-order?address=${deliveryAddress}`);
+                const response = await axiosInstance.post(`${process.env.REACT_APP_APP_SERVER_URL}/action/create-order?address=${deliveryAddress}`);
                 if (response.status === 200) {
                     alert('Заказ успешно оформлен!');
                     navigate('/profile');

@@ -11,7 +11,7 @@ const AdminPanelPage = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axiosInstance.get('http://localhost:8099/api/auth/logout', { withCredentials: true });
+            const response = await axiosInstance.get(`${process.env.REACT_APP_JWT_SERVER_URL}/api/auth/logout`, { withCredentials: true });
             if (response.status === 204) {
                 console.log("Успешный выход");
                 navigate('/'); // перенаправляем на главную страницу после выхода

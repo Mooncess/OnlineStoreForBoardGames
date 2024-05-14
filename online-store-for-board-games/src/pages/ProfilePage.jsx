@@ -16,7 +16,7 @@ const ProfilePage = () => {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8080/action/profile');
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/profile`);
 
                 if (response.status === 200) {
                     setProfileData(response.data);
@@ -40,7 +40,7 @@ const ProfilePage = () => {
 
         const fetchUserOrders = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8080/action/get-user-order');
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/get-user-order`);
                 setUserOrders(response.data);
             } catch (error) {
                 console.error('Ошибка при получении заказов пользователя:', error);
@@ -53,7 +53,7 @@ const ProfilePage = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axiosInstance.get('http://localhost:8099/api/auth/logout', { withCredentials: true });
+            const response = await axiosInstance.get(`${process.env.REACT_APP_JWT_SERVER_URL}/api/auth/logout`, { withCredentials: true });
             if (response.status === 204) {
                 console.log("Успешный выход");
                 navigate('/');

@@ -9,7 +9,7 @@ const ArticleItem = ({ id, name, oldPrice, actualPrice, reserves, imageURN }) =>
     useEffect(() => {
     const fetchImage = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/article/image/${id}`, { responseType: 'blob' });
+            const response = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/article/image/${id}`, { responseType: 'blob' });
             const imageUrl = URL.createObjectURL(response.data);
             setImageUrl(imageUrl);
         } catch (error) {

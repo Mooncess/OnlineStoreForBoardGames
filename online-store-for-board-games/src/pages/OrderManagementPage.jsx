@@ -14,7 +14,7 @@ const OrderManagementPage = () => {
 
     const fetchOrderStatuses = async () => {
         try {
-            const response = await axiosInstance.get('http://localhost:8080/order-status', {
+            const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/order-status`, {
                 withCredentials: true
             });
             setOrderStatuses(response.data);
@@ -25,7 +25,7 @@ const OrderManagementPage = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axiosInstance.get(`http://localhost:8080/action/admin/order-by-username/${searchText}`, {
+            const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/admin/order-by-username/${searchText}`, {
                 withCredentials: true
             });
             setOrders(response.data);
@@ -37,7 +37,7 @@ const OrderManagementPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8080/action/get-all-order', {
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/get-all-order`, {
                     withCredentials: true
                 });
                 setOrders(response.data);
@@ -52,7 +52,7 @@ const OrderManagementPage = () => {
 
     const handleUpdateStatus = async (orderId, statusId) => {
         try {
-            const response = await axiosInstance.put(`http://localhost:8080/action/admin/order/update-status?order=${orderId}&status=${statusId}`, {
+            const response = await axiosInstance.put(`${process.env.REACT_APP_APP_SERVER_URL}/action/admin/order/update-status?order=${orderId}&status=${statusId}`, {
                 withCredentials: true
             });
             if (response.status === 200) {

@@ -34,7 +34,7 @@ const EditArticlePage = () => {
     useEffect(() => {
         const fetchArticleData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/article/${id}`);
+                const response = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/article/${id}`);
                 setArticleData(response.data);
                 setSelectedCategories(response.data.category.map(category => category.id));
             } catch (error) {
@@ -44,7 +44,7 @@ const EditArticlePage = () => {
     
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/category');
+                const response = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/category`);
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error fetching categories:', error);
@@ -89,7 +89,7 @@ const EditArticlePage = () => {
             formData.append('image', imageFile);
     
             try {
-                const response = await axiosInstance.put(`http://localhost:8080/article/admin/update/${id}`, formData, {
+                const response = await axiosInstance.put(`${process.env.REACT_APP_APP_SERVER_URL}/article/admin/update/${id}`, formData, {
                     withCredentials: true,
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });

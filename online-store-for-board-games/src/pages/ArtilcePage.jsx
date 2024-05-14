@@ -19,7 +19,7 @@ const ArticlePage = () => {
     
     const fetchComments = async () => {
         try {
-            const response = await axiosInstance.get(`http://localhost:8080/comment/article-comments/${id}`, { withCredentials: true });
+            const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/comment/article-comments/${id}`, { withCredentials: true });
             setComments(response.data);
         } catch (error) {
             console.error('Ошибка при запросе комментариев:', error);
@@ -28,16 +28,16 @@ const ArticlePage = () => {
 
     const fetchData = async () => {
         try {
-            const responseArticle = await axios.get(`http://localhost:8080/article/${id}`);
+            const responseArticle = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/article/${id}`);
             setArticle(responseArticle.data);
 
-            const responseWishlist = await axios.get(`http://localhost:8080/action/is-article-in-wishlist?articleId=${id}`, { withCredentials: true });
-            const responseBasket = await axios.get(`http://localhost:8080/action/is-article-in-basket?articleId=${id}`, { withCredentials: true });
+            const responseWishlist = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/is-article-in-wishlist?articleId=${id}`, { withCredentials: true });
+            const responseBasket = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/is-article-in-basket?articleId=${id}`, { withCredentials: true });
 
             setIsInWishlist(responseWishlist.status === 200);
             setIsInBasket(responseBasket.status === 200);
 
-            const responseAvailability = await axios.get(`http://localhost:8080/action/check-reserves?articleId=${id}`, { withCredentials: true });
+            const responseAvailability = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/check-reserves?articleId=${id}`, { withCredentials: true });
             setIsAvailable(responseAvailability.status === 200);
         } catch (error) {
             console.error('Ошибка при запросе информации о товаре:', error);
@@ -51,7 +51,7 @@ const ArticlePage = () => {
 
     const addToBasket = async () => {
         try {
-            await axiosInstance.post(`http://localhost:8080/action/add-to-basket?articleId=${id}`, null, { withCredentials: true });
+            await axiosInstance.post(`${process.env.REACT_APP_APP_SERVER_URL}/action/add-to-basket?articleId=${id}`, null, { withCredentials: true });
             alert('Товар добавлен в корзину!');
             // После успешного добавления в корзину делаем запрос для обновления информации
             fetchData();
@@ -62,7 +62,7 @@ const ArticlePage = () => {
 
     const addToWishlist = async () => {
         try {
-            await axiosInstance.post(`http://localhost:8080/action/add-to-wishlist?articleId=${id}`, null, { withCredentials: true });
+            await axiosInstance.post(`${process.env.REACT_APP_APP_SERVER_URL}/action/add-to-wishlist?articleId=${id}`, null, { withCredentials: true });
             alert('Товар добавлен в избранное!');
             // После успешного добавления в список желаемого делаем запрос для обновления информации
             fetchData();
@@ -73,7 +73,7 @@ const ArticlePage = () => {
 
     const handleAddComment = async () => {
         try {
-            await axiosInstance.post('http://localhost:8080/comment/create', {
+            await axiosInstance.post(`${process.env.REACT_APP_APP_SERVER_URL}/comment/create`, {
                 content: newComment,
                 articleId: id
             }, { withCredentials: true });
@@ -99,7 +99,7 @@ const ArticlePage = () => {
                 <h2 className='article-name-h2'>{article.name}</h2>
                 <div className="product-details">
                     <div className="product-image">
-                        <img src={`http://localhost:8080/article/image/${id}`} alt={article.name} width="360" height="360" />
+                        <img src={`${process.env.REACT_APP_APP_SERVER_URL}/article/image/${id}`} alt={article.name} width="360" height="360" />
                     </div>
                     <div className="product-info">
                         <p className="old-price">{article.oldPrice}</p>

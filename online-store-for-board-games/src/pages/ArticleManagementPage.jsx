@@ -13,7 +13,7 @@ const ArticleManagementPage = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/article?name=${searchText}`);
+            const response = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/article?name=${searchText}`);
             setArticles(response.data);
         } catch (error) {
             console.error('Ошибка при запросе данных:', error);
@@ -22,7 +22,7 @@ const ArticleManagementPage = () => {
 
     const handleSort = async (type) => {
         try {
-            const response = await axios.get(`http://localhost:8080/article/admin?sort=${type}`, {withCredentials: true});
+            const response = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/article/admin?sort=${type}`, {withCredentials: true});
             setArticles(response.data);
             setSortType(type);
         } catch (error) {
@@ -36,7 +36,7 @@ const ArticleManagementPage = () => {
 
     const handleDeleteArticle = async (id) => {
         try {
-            await axios.delete(`http://localhost:8080/article/admin/delete/${id}`, {withCredentials: true});
+            await axios.delete(`${process.env.REACT_APP_APP_SERVER_URL}/article/admin/delete/${id}`, {withCredentials: true});
             const updatedArticles = articles.filter(article => article.id !== id);
             setArticles(updatedArticles);
         } catch (error) {
@@ -47,7 +47,7 @@ const ArticleManagementPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/article');
+                const response = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/article`);
                 setArticles(response.data);
             } catch (error) {
                 console.error('Ошибка при запросе данных:', error);

@@ -13,7 +13,7 @@ const WishListPage = () => {
     useEffect(() => {
         const checkAdminStatus = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8099/api/auth/is-admin', { withCredentials: true });
+                const response = await axiosInstance.get(`${process.env.REACT_APP_JWT_SERVER_URL}/api/auth/is-admin`, { withCredentials: true });
                 if (response.status === 200) {
                     navigate('/admin/admin-panel');
                 }
@@ -28,7 +28,7 @@ const WishListPage = () => {
     useEffect(() => {
         const fetchWishListData = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8080/action/get-user-wishlist', { withCredentials: true });
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/get-user-wishlist`, { withCredentials: true });
                 setWishListItems(response.data);
             } catch (error) {
                 console.error('Ошибка при запросе данных списка желаний:', error);
@@ -40,7 +40,7 @@ const WishListPage = () => {
 
     const addToBasket = async (itemId) => {
         try {
-            await axiosInstance.post(`http://localhost:8080/action/add-to-basket?articleId=${itemId}`, { withCredentials: true });
+            await axiosInstance.post(`${process.env.REACT_APP_APP_SERVER_URL}/action/add-to-basket?articleId=${itemId}`, { withCredentials: true });
             alert('Товар добавлен в корзину!');
         } catch (error) {
             console.error('Ошибка при добавлении товара в корзину:', error);
@@ -49,7 +49,7 @@ const WishListPage = () => {
 
     const removeFromWishList = async (itemId) => {
         try {
-            await axiosInstance.delete(`http://localhost:8080/action/delete-from-wishlist?articleId=${itemId}`, { withCredentials: true });
+            await axiosInstance.delete(`${process.env.REACT_APP_APP_SERVER_URL}/action/delete-from-wishlist?articleId=${itemId}`, { withCredentials: true });
             setWishListItems(wishListItems.filter(item => item.id !== itemId));
         } catch (error) {
             console.error('Ошибка при удалении товара из списка желаний:', error);

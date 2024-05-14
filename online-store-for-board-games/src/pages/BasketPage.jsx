@@ -12,7 +12,7 @@ const BasketPage = () => {
     useEffect(() => {
         const checkAdminStatus = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8099/api/auth/is-admin', { withCredentials: true });
+                const response = await axiosInstance.get(`${process.env.REACT_APP_JWT_SERVER_URL}/api/auth/is-admin`, { withCredentials: true });
                 if (response.status === 200) {
                     navigate('/admin/admin-panel');
                 }
@@ -25,7 +25,7 @@ const BasketPage = () => {
 
         const fetchBasketData = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8080/action/get-user-basket');
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/get-user-basket`);
                 setBasketItems(response.data);
             } catch (error) {
                 console.error('Ошибка при запросе данных корзины:', error);
@@ -42,7 +42,7 @@ const BasketPage = () => {
             if (basketItems.find(item => item.article.id === itemId)?.quantity === 1) {
                 removeItemFromBasket(itemId);
             } else {
-                await axiosInstance.put(`http://localhost:8080/action/decrease-count-of-basket-item?articleId=${itemId}`);
+                await axiosInstance.put(`${process.env.REACT_APP_APP_SERVER_URL}/action/decrease-count-of-basket-item?articleId=${itemId}`);
                 const updatedItems = basketItems.map(item =>
                     item.article.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
                 );
@@ -55,7 +55,7 @@ const BasketPage = () => {
 
     const increaseQuantity = async (itemId) => {
         try {
-            await axiosInstance.put(`http://localhost:8080/action/increase-count-of-basket-item?articleId=${itemId}`);
+            await axiosInstance.put(`${process.env.REACT_APP_APP_SERVER_URL}/action/increase-count-of-basket-item?articleId=${itemId}`);
             const updatedItems = basketItems.map(item =>
                 item.article.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
             );
@@ -67,7 +67,7 @@ const BasketPage = () => {
     
     const removeItemFromBasket = async (itemId) => {
         try {
-            await axiosInstance.delete(`http://localhost:8080/action/delete-from-basket?articleId=${itemId}`);
+            await axiosInstance.delete(`${process.env.REACT_APP_APP_SERVER_URL}/action/delete-from-basket?articleId=${itemId}`);
             const updatedItems = basketItems.filter(item => item.article.id !== itemId);
             setBasketItems(updatedItems);
             alert('Товар удален из корзины!');

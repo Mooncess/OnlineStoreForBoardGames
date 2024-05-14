@@ -10,7 +10,7 @@ const CommentManagementPage = () => {
     useEffect(() => {
         const fetchUserComments = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8080/comment/all');
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/comment/all`);
                 setComments(response.data);
             } catch (error) {
                 console.error('Error fetching user comments:', error);
@@ -22,7 +22,7 @@ const CommentManagementPage = () => {
 
     const handleDeleteComment = async (commentId) => {
         try {
-            await axiosInstance.delete(`http://localhost:8080/comment/admin/delete/${commentId}`);
+            await axiosInstance.delete(`${process.env.REACT_APP_APP_SERVER_URL}/comment/admin/delete/${commentId}`);
             // Обновить список комментариев после удаления
             setComments(comments.filter(comment => comment.id !== commentId));
         } catch (error) {

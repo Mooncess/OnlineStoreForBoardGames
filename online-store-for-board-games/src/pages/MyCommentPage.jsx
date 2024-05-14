@@ -12,7 +12,7 @@ const MyCommentPage = () => {
     useEffect(() => {
         const fetchUserComments = async () => {
             try {
-                const response = await axiosInstance.get('http://localhost:8080/comment/user-comments');
+                const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/comment/user-comments`);
                 setComments(response.data);
             } catch (error) {
                 console.error('Error fetching user comments:', error);
@@ -24,7 +24,7 @@ const MyCommentPage = () => {
 
     const handleDeleteComment = async (commentId) => {
         try {
-            await axiosInstance.delete(`http://localhost:8080/comment/delete/${commentId}`);
+            await axiosInstance.delete(`${process.env.REACT_APP_APP_SERVER_URL}/comment/delete/${commentId}`);
             // Обновить список комментариев после удаления
             setComments(comments.filter(comment => comment.id !== commentId));
         } catch (error) {
@@ -34,7 +34,7 @@ const MyCommentPage = () => {
 
     const handleUpdateComment = async () => {
         try {
-            await axiosInstance.put(`http://localhost:8080/comment/update/${updateCommentId}?content=${newCommentContent}`);
+            await axiosInstance.put(`${process.env.REACT_APP_APP_SERVER_URL}/comment/update/${updateCommentId}?content=${newCommentContent}`);
             // Обновить список комментариев после успешного обновления
             fetchUserComments();
             setUpdateCommentId(null);
@@ -46,7 +46,7 @@ const MyCommentPage = () => {
 
     const fetchUserComments = async () => {
         try {
-            const response = await axiosInstance.get('http://localhost:8080/comment/user-comments');
+            const response = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/comment/user-comments`);
             setComments(response.data);
         } catch (error) {
             console.error('Error fetching user comments:', error);
