@@ -25,25 +25,28 @@ public class Controller {
     private String jwtServerUrl;
 
     @PostMapping("s-login")
-    public Mono<ResponseEntity<JwtResponse>> login(@RequestBody JwtRequest authRequest) {
+    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) {
         System.out.println("Пришел запрос на вход");
 
         WebClient webClient = WebClient.create(jwtServerUrl);
 
         // Нужна корректировка: необходимо возвращать статус ответа от сервера приложения
         // и удалять юзера из БД, если что-то пошло не так
-        return webClient.post()
+        JwtResponse token = webClient.post()
                 .uri("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(authRequest), JwtRequest.class)
                 .retrieve()
                 .bodyToMono(JwtResponse.class)
-                .flatMap(token -> {
-                    HttpHeaders headers = new HttpHeaders();
-                    headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly;");
-                    headers.add("Set-Cookie", "refresh=" + token.getRefreshToken() + "; Path=/api/auth; Max-Age=3600; HttpOnly");
-                    return Mono.just(ResponseEntity.ok().headers(headers).body(token));
-                });
+                .block();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly;");
+        headers.add("Set-Cookie", "refresh=" + token.getRefreshToken() + "; Path=/api/auth; Max-Age=3600; HttpOnly");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(token);
     }
 
     @PreAuthorize("hasAuthority('USER')")
