@@ -7,6 +7,7 @@ import ru.mooncess.onlinestore.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+@CrossOrigin(maxAge = 3600, origins = "${jwt.server.url}", allowCredentials = "true")
 @RestController
 @RequestMapping("api")
 @RequiredArgsConstructor
