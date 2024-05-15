@@ -22,7 +22,13 @@ public class Controller {
     private final AuthService authService;
     private final UserService userService;
     @Value("${app.server.url}")
-    private final String appServerUrl;
+    private String appServerUrl;
+
+    public Controller(AuthService authService, UserService userService, @Value("${app.server.url}") String appServerUrl) {
+        this.authService = authService;
+        this.userService = userService;
+        this.appServerUrl = appServerUrl;
+    }
 
     @PostMapping("/registration")
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationRequest registrationRequest) {
