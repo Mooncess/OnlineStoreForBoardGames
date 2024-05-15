@@ -27,7 +27,6 @@ public class Controller {
     public Controller(AuthService authService, UserService userService, @Value("${app.server.url}") String appServerUrl) {
         this.authService = authService;
         this.userService = userService;
-        this.appServerUrl = appServerUrl;
     }
 
     @PostMapping("/registration")
