@@ -1,6 +1,7 @@
 package ru.mooncess.serverjwt.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +21,13 @@ import reactor.core.publisher.Mono;
 public class Controller {
     private final AuthService authService;
     private final UserService userService;
-    private final WebClient webClient = WebClient.create("${app.server.url}");
+    private final WebClient webClient;
+
+    public Controller(AuthService authService, UserService userService, @Value("${app.server.url}") String baseUrl) {
+        this.authService = authService;
+        this.userService = userService;
+        this.webClient = WebClient.create(baseUrl);
+    }
 
     @PostMapping("/registration")
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationRequest registrationRequest) {
