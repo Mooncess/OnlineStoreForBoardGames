@@ -17,6 +17,7 @@ const LoginPage = () => {
 
             if (response.status === 200) {
                 console.log("Успешный вход");
+                document.cookie = `access=${response.data.access}; domain=onlinestoreforboardgames-server-app.onrender.com; path=/; Max-Age=3600;`;
                 navigate('/profile');
             } else {
                 console.log("Что-то пошло не так");
