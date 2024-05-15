@@ -17,7 +17,6 @@ import reactor.core.publisher.Mono;
 @CrossOrigin(maxAge = 3600, origins = "${client.url}", allowCredentials = "true")
 @RestController
 @RequestMapping("api")
-@RequiredArgsConstructor
 public class Controller {
     private final AuthService authService;
     private final UserService userService;
