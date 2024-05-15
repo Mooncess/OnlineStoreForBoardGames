@@ -13,8 +13,8 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await axiosInstance.post('http://localhost:8099/api/auth/login', { login, password }, { withCredentials: true });
-
+            // const response = await axiosInstance.post('http://localhost:8099/api/auth/login', { login, password }, { withCredentials: true });
+            const response = await axiosInstance.post('http://localhost:8080/api/s-login', { login, password }, { withCredentials: true });
             if (response.status === 200) {
                 console.log("Успешный вход");
                 navigate('/profile');
