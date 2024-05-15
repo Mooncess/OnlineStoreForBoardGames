@@ -28,7 +28,7 @@ public class AuthController {
         System.out.println(authRequest.getLogin() + " " + authRequest.getPassword());
         final JwtResponse token = authService.login(authRequest);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Domain=https://onlinestoreforboardgames-server-app.onrender.com; Path=/; Max-Age=3600; HttpOnly");
+        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Domain=onlinestoreforboardgames-server-app.onrender.com; Path=/; Max-Age=3600; HttpOnly");
         headers.add("Set-Cookie", "refresh=" + token.getRefreshToken() + "; Path=/api/auth; Max-Age=3600; HttpOnly");
 
         return ResponseEntity.ok()
@@ -76,7 +76,7 @@ public class AuthController {
         final JwtResponse token = authService.getAccessToken(refreshToken);
         System.out.println("New TOKEN: " + token.getAccessToken());
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Domain=https://onlinestoreforboardgames-server-app.onrender.com; Path=/; Max-Age=3600; HttpOnly");
+        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Domain=onlinestoreforboardgames-server-app.onrender.com; Path=/; Max-Age=3600; HttpOnly");
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -92,7 +92,7 @@ public class AuthController {
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Domain=https://onlinestoreforboardgames-server-app.onrender.com; Path=/; Max-Age=3600; HttpOnly");
+        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Domain=onlinestoreforboardgames-server-app.onrender.com; Path=/; Max-Age=3600; HttpOnly");
         headers.add("Set-Cookie", "refresh=" + token.getRefreshToken() + "; Path=/api/auth; Max-Age=3600; HttpOnly");
 
         return ResponseEntity.ok()
