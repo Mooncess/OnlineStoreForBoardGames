@@ -21,13 +21,8 @@ import reactor.core.publisher.Mono;
 public class Controller {
     private final AuthService authService;
     private final UserService userService;
-    private final WebClient webClient;
-
-    public Controller(AuthService authService, UserService userService, @Value("${app.server.url}") String baseUrl) {
-        this.authService = authService;
-        this.userService = userService;
-        this.webClient = WebClient.create(baseUrl);
-    }
+    @Value("${app.server.url}")
+    private final String appServerUrl;
 
     @PostMapping("/registration")
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationRequest registrationRequest) {
@@ -39,6 +34,8 @@ public class Controller {
             userForApp.setFirstName(registrationRequest.getFirstName());
             userForApp.setLastName(registrationRequest.getLastName());
             userForApp.setPhoneNumber(registrationRequest.getPhoneNumber());
+
+            WebClient webClient = WebClient.create(appServerUrl);
 
             // Нужна корректировка: необходимо возвращать статус ответа от сервера приложения
             // и удалять юзера из БД, если что-то пошло не так
