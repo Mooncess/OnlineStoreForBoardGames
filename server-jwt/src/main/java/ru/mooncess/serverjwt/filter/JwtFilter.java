@@ -1,5 +1,6 @@
 package ru.mooncess.serverjwt.filter;
 
+import org.springframework.beans.factory.annotation.Value;
 import ru.mooncess.serverjwt.service.JwtProvider;
 import ru.mooncess.serverjwt.service.JwtUtils;
 import io.jsonwebtoken.Claims;
@@ -28,6 +29,8 @@ public class JwtFilter extends GenericFilterBean {
     private static final String AUTHORIZATION = "Authorization";
 
     private final JwtProvider jwtProvider;
+    @Value("${client.url}")
+    private String clientUrl;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
@@ -36,7 +39,7 @@ public class JwtFilter extends GenericFilterBean {
         final String token = getTokenFromRequest((HttpServletRequest) request);
 
         // Добавляем заголовки CORS
-        httpResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        httpResponse.setHeader("Access-Control-Allow-Origin", clientUrl);
         httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
