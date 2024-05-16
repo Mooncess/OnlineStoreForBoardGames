@@ -22,26 +22,26 @@ public class AuthController {
 
     private final AuthService authService;
 
-//    @PostMapping("login")
-//    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) {
-//        System.out.println("Пришел запрос на вход");
-//        System.out.println(authRequest.getLogin() + " " + authRequest.getPassword());
-//        final JwtResponse token = authService.login(authRequest);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly;");
-//        headers.add("Set-Cookie", "refresh=" + token.getRefreshToken() + "; Path=/api/auth; Max-Age=3600; HttpOnly");
-//
-//        return ResponseEntity.ok()
-//                .headers(headers)
-//                .body(token);
-//    }
-
     @PostMapping("login")
-    public JwtResponse login(@RequestBody JwtRequest authRequest) {
+    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) {
         System.out.println("Пришел запрос на вход");
         System.out.println(authRequest.getLogin() + " " + authRequest.getPassword());
-        return authService.login(authRequest);
+        final JwtResponse token = authService.login(authRequest);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly;");
+        headers.add("Set-Cookie", "refresh=" + token.getRefreshToken() + "; Path=/api/auth; Max-Age=3600; HttpOnly");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(token);
     }
+
+//    @PostMapping("login")
+//    public JwtResponse login(@RequestBody JwtRequest authRequest) {
+//        System.out.println("Пришел запрос на вход");
+//        System.out.println(authRequest.getLogin() + " " + authRequest.getPassword());
+//        return authService.login(authRequest);
+//    }
 
     // Добавляем новый метод logout для удаления кук
     @GetMapping("logout")

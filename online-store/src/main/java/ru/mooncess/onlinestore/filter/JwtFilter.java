@@ -28,57 +28,57 @@ public class JwtFilter extends GenericFilterBean {
 
     private final AuthService authService;
 
-//    @Override
-//    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-//        final String token = getTokenFromRequest((HttpServletRequest) servletRequest);
-//        if (token != null && authService.validateToken(token)) {
-//            final Claims claims = authService.getClaims(token);
-//            final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
-//            jwtInfoToken.setAuthenticated(true);
-//            SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
-//        }
-//        filterChain.doFilter(servletRequest, servletResponse);
-//    }
-//
-//    private String getTokenFromRequest(HttpServletRequest request) {
-//        final String bearer = request.getHeader(AUTHORIZATION);
-//        if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
-//            return bearer.substring(7);
-//        }
-//        return null;
-//    }
-
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        final String token = getTokenFromRequest(httpRequest);
-
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        final String token = getTokenFromRequest((HttpServletRequest) servletRequest);
         if (token != null && authService.validateToken(token)) {
             final Claims claims = authService.getClaims(token);
             final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
-            System.out.println(jwtInfoToken.getUsername());
             jwtInfoToken.setAuthenticated(true);
             SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
         }
-
-        fc.doFilter(request, response);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        System.out.println("Check Cookies");
-        if (cookies != null) {
-            System.out.println("Cookies no null");
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("access")) {
-                    System.out.println(cookie.getValue());
-                    return cookie.getValue();
-                }
-            }
+        final String bearer = request.getHeader(AUTHORIZATION);
+        if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
+            return bearer.substring(7);
         }
-        System.out.println("Cookies is empty");
         return null;
     }
+
+//    @Override
+//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc) throws IOException, ServletException {
+//        HttpServletRequest httpRequest = (HttpServletRequest) request;
+//        final String token = getTokenFromRequest(httpRequest);
+//
+//        if (token != null && authService.validateToken(token)) {
+//            final Claims claims = authService.getClaims(token);
+//            final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
+//            System.out.println(jwtInfoToken.getUsername());
+//            jwtInfoToken.setAuthenticated(true);
+//            SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
+//        }
+//
+//        fc.doFilter(request, response);
+//    }
+
+//    private String getTokenFromRequest(HttpServletRequest request) {
+//        Cookie[] cookies = request.getCookies();
+//        System.out.println("Check Cookies");
+//        if (cookies != null) {
+//            System.out.println("Cookies no null");
+//            for (Cookie cookie : cookies) {
+//                if (cookie.getName().equals("access")) {
+//                    System.out.println(cookie.getValue());
+//                    return cookie.getValue();
+//                }
+//            }
+//        }
+//        System.out.println("Cookies is empty");
+//        return null;
+//    }
 }
 
 
