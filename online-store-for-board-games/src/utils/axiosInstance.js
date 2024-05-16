@@ -7,6 +7,20 @@ const axiosInstance = axios.create({
     },
 });
 
+axiosInstance.interceptors.request.use(config => {
+    const accessToken = localStorage.getItem('access');
+    console.log(`Bearer ${accessToken}`);
+
+    if (accessToken) {
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
+        console.log('Authorization header attached successfully:', config.headers['Authorization']);
+    } else {
+        console.log('No access token found, Authorization header not attached.');
+    }
+
+    return config;
+});
+
 axiosInstance.interceptors.response.use(
     response => {
         return response;

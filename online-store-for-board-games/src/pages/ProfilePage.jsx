@@ -53,7 +53,13 @@ const ProfilePage = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axiosInstance.get(`${process.env.REACT_APP_JWT_SERVER_URL}/api/auth/logout`, { withCredentials: true });
+            const accessToken = localStorage.getItem('access');
+            const response = await axiosInstance.get(`${process.env.REACT_APP_JWT_SERVER_URL}/api/auth/logout`, {
+                withCredentials: true,
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
             if (response.status === 204) {
                 console.log("Успешный выход");
                 navigate('/');
