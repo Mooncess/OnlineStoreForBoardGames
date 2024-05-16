@@ -39,7 +39,8 @@ const CheckoutPage = () => {
     }, []);
 
     const getTotalPrice = () => {
-        return basketItems.reduce((total, item) => total + item.article.actualPrice * item.quantity, 0) * (1 - personalDiscount / 100);
+        const totalPrice = basketItems.reduce((total, item) => total + item.article.actualPrice * item.quantity, 0) * (1 - personalDiscount / 100);
+        return Math.round(totalPrice);
     };
 
     const handleCheckout = async () => {

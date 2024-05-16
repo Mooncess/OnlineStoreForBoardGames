@@ -14,6 +14,7 @@ const AdminPanelPage = () => {
             const response = await axiosInstance.get(`${process.env.REACT_APP_JWT_SERVER_URL}/api/auth/logout`, { withCredentials: true });
             if (response.status === 204) {
                 console.log("Успешный выход");
+                localStorage.removeItem('access');
                 navigate('/'); // перенаправляем на главную страницу после выхода
             } else {
                 console.log("Что-то пошло не так");

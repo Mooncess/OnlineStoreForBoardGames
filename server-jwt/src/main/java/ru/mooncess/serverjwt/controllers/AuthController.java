@@ -14,7 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(maxAge = 3600, origins = "${client.url}", allowCredentials = "true")
 @RestController
 @RequestMapping("api/auth")
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class AuthController {
         System.out.println(authRequest.getLogin() + " " + authRequest.getPassword());
         final JwtResponse token = authService.login(authRequest);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly");
+        // headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly");
         headers.add("Set-Cookie", "refresh=" + token.getRefreshToken() + "; Path=/api/auth; Max-Age=3600; HttpOnly");
 
         return ResponseEntity.ok()
@@ -40,17 +40,17 @@ public class AuthController {
     @GetMapping("logout")
     public ResponseEntity<?> logout(HttpServletResponse response) {
         System.out.println("Запрос на выход");
-        Cookie accessCookie = new Cookie("access", null);
-        accessCookie.setPath("/");
-        accessCookie.setMaxAge(0);
-        accessCookie.setHttpOnly(true);
+//        Cookie accessCookie = new Cookie("access", null);
+//        accessCookie.setPath("/");
+//        accessCookie.setMaxAge(0);
+//        accessCookie.setHttpOnly(true);
 
         Cookie refreshCookie = new Cookie("refresh", null);
         refreshCookie.setPath("/api/auth");
         refreshCookie.setMaxAge(0);
         refreshCookie.setHttpOnly(true);
 
-        response.addCookie(accessCookie);
+        // response.addCookie(accessCookie);
         response.addCookie(refreshCookie);
 
         return ResponseEntity.noContent().build();
@@ -71,15 +71,13 @@ public class AuthController {
     @PostMapping("token")
     public ResponseEntity<JwtResponse> getNewAccessToken(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         String refreshToken = getCookieValue(servletRequest, "refresh");
-        System.out.println("Прилетел запрос на обновление аксес токена " + refreshToken);
+        System.out.println("Запрос на обновление аксес токена ");
 
         final JwtResponse token = authService.getAccessToken(refreshToken);
-        System.out.println("New TOKEN: " + token.getAccessToken());
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly");
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly");
 
         return ResponseEntity.ok()
-                .headers(headers)
                 .body(token);
     }
 
@@ -92,7 +90,7 @@ public class AuthController {
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly");
+        //headers.add("Set-Cookie", "access=" + token.getAccessToken() + "; Path=/; Max-Age=3600; HttpOnly");
         headers.add("Set-Cookie", "refresh=" + token.getRefreshToken() + "; Path=/api/auth; Max-Age=3600; HttpOnly");
 
         return ResponseEntity.ok()
@@ -100,16 +98,36 @@ public class AuthController {
                 .body(token);
     }
 
+//    @GetMapping("is-admin")
+//    public ResponseEntity<?> isAdmin(HttpServletRequest servletRequest) {
+//        String accessToken = getCookieValue(servletRequest, "access");
+//        if (authService.isAdmin(accessToken)) {
+//            System.out.println("Это админ");
+//            return ResponseEntity.status(HttpStatus.OK).build();
+//        }
+//        else {
+//            System.out.println("Это не админ");
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+//        }
+//    }
+
     @GetMapping("is-admin")
     public ResponseEntity<?> isAdmin(HttpServletRequest servletRequest) {
-        String accessToken = getCookieValue(servletRequest, "access");
-        if (authService.isAdmin(accessToken)) {
-            System.out.println("Это админ");
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
-        else {
-            System.out.println("Это не админ");
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        String authorizationHeader = servletRequest.getHeader("Authorization");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String accessToken = authorizationHeader.substring(7); // Отрезаем "Bearer " из заголовка
+
+            if (authService.isAdmin(accessToken)) {
+                System.out.println("Это админ");
+                return ResponseEntity.status(HttpStatus.OK).build();
+            } else {
+                System.out.println("Это не админ");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        } else {
+            // Если заголовок Authorization отсутствует или не содержит токен
+            System.out.println("Отсутствует заголовок авторизации или неверный формат");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

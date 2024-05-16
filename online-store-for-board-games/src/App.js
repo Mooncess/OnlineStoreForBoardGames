@@ -21,6 +21,7 @@ import MyCommentPage from './pages/MyCommentPage';
 import OrderPage from './pages/OrderPage';
 import EditArticlePage from './pages/EditArticlePage';
 import CommentManagementPage from './pages/CommentManagementPage';
+import axiosInstance from './utils/axiosInstance';
 
 function AdminRoute({ element }) {
   const [isAdmin, setIsAdmin] = useState(null);
@@ -28,7 +29,7 @@ function AdminRoute({ element }) {
   useEffect(() => {
     const checkAdminRole = async () => {
       try {
-        const response = await axios.get('http://localhost:8099/api/auth/is-admin', { withCredentials: true });
+        const response = await axiosInstance.get(`${process.env.REACT_APP_JWT_SERVER_URL}/api/auth/is-admin`, { withCredentials: true });
         if (response.status === 200) {
           setIsAdmin(true);
         } else {

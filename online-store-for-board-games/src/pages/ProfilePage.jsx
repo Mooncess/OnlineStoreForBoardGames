@@ -62,6 +62,7 @@ const ProfilePage = () => {
             });
             if (response.status === 204) {
                 console.log("Успешный выход");
+                localStorage.removeItem('access');
                 navigate('/');
             } else {
                 console.log("Что-то пошло не так");

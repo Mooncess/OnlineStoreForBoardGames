@@ -9,13 +9,9 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(config => {
     const accessToken = localStorage.getItem('access');
-    console.log(`Bearer ${accessToken}`);
 
     if (accessToken) {
         config.headers['Authorization'] = `Bearer ${accessToken}`;
-        console.log('Authorization header attached successfully:', config.headers['Authorization']);
-    } else {
-        console.log('No access token found, Authorization header not attached.');
     }
 
     return config;
@@ -33,7 +29,11 @@ axiosInstance.interceptors.response.use(
                 const response = await axios.post(`${process.env.REACT_APP_JWT_SERVER_URL}/api/auth/token`, null, {
                     withCredentials: true,
                 });
-                console.log("Обновил токен");
+                console.log('Access token refreshed successfully:', response.data);
+                localStorage.setItem('access', response.data.accessToken);
+                const accessToken = localStorage.getItem('access');
+                error.config.headers['Authorization'] = `Bearer ${accessToken}`;
+                
                 console.log(response.status);
 
                 // Повторяем исходный запрос с обновленным токеном
@@ -48,7 +48,7 @@ axiosInstance.interceptors.response.use(
                     console.log(response.status);
     
                     // Повторяем исходный запрос с обновленным токеном
-                    return axios(error.config);
+                    return axiosInstance(error.config);
                 } catch (refreshError) {
                     window.location.href = '/login';
                     // Можно выполнить дополнительные действия при ошибке обновления токена

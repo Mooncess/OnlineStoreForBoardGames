@@ -61,8 +61,12 @@ public class OrderService {
                 total = total + (orderItem.getPrice() * orderItem.getQuantity());
             }
 
-            if(user.getPersonalDiscount() != 0) order.setTotal(total * (1 - ((double) user.getPersonalDiscount() / 100)));
-            else order.setTotal(total);
+            if(user.getPersonalDiscount() != 0) {
+                double discountTotal = total * (1 - ((double) user.getPersonalDiscount() / 100));
+                order.setTotal((double) Math.round(discountTotal));
+            } else {
+                order.setTotal((double) Math.round(total));
+            }
 
             order.setOrderItemList(list);
             order.setBuyer(user);

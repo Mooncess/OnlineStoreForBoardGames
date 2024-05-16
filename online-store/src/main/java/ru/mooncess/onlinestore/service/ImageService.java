@@ -56,7 +56,6 @@ public class ImageService {
     }
 
     public byte[] getImageByURN(String imageURN) throws IOException {
-        System.out.println(UPLOAD_DIR + imageURN);
         File file = new File(UPLOAD_DIR + imageURN);
 
         if (file.exists()) {

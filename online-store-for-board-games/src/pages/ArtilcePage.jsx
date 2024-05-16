@@ -31,8 +31,8 @@ const ArticlePage = () => {
             const responseArticle = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/article/${id}`);
             setArticle(responseArticle.data);
 
-            const responseWishlist = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/is-article-in-wishlist?articleId=${id}`, { withCredentials: true });
-            const responseBasket = await axios.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/is-article-in-basket?articleId=${id}`, { withCredentials: true });
+            const responseWishlist = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/is-article-in-wishlist?articleId=${id}`, { withCredentials: true });
+            const responseBasket = await axiosInstance.get(`${process.env.REACT_APP_APP_SERVER_URL}/action/is-article-in-basket?articleId=${id}`, { withCredentials: true });
 
             setIsInWishlist(responseWishlist.status === 200);
             setIsInBasket(responseBasket.status === 200);

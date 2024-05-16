@@ -1,6 +1,7 @@
 package ru.mooncess.serverjwt.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,14 +14,19 @@ import ru.mooncess.serverjwt.service.UserService;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(maxAge = 3600, origins = "${client.url}", allowCredentials = "true")
 @RestController
 @RequestMapping("api")
-@RequiredArgsConstructor
 public class Controller {
     private final AuthService authService;
     private final UserService userService;
-    private final WebClient webClient = WebClient.create("http://localhost:8080");
+    @Value("${app.server.url}")
+    private String appServerUrl;
+
+    public Controller(AuthService authService, UserService userService, @Value("${app.server.url}") String appServerUrl) {
+        this.authService = authService;
+        this.userService = userService;
+    }
 
     @PostMapping("/registration")
     public ResponseEntity<?> createNewUser(@RequestBody RegistrationRequest registrationRequest) {
@@ -32,6 +38,8 @@ public class Controller {
             userForApp.setFirstName(registrationRequest.getFirstName());
             userForApp.setLastName(registrationRequest.getLastName());
             userForApp.setPhoneNumber(registrationRequest.getPhoneNumber());
+
+            WebClient webClient = WebClient.create(appServerUrl);
 
             // Нужна корректировка: необходимо возвращать статус ответа от сервера приложения
             // и удалять юзера из БД, если что-то пошло не так
