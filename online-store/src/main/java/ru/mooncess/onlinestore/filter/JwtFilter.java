@@ -66,7 +66,9 @@ public class JwtFilter extends GenericFilterBean {
 
     private String getTokenFromRequest(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
+        System.out.println("Check Cookies");
         if (cookies != null) {
+            System.out.println("Cookies no null");
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("access")) {
                     System.out.println(cookie.getValue());
@@ -74,6 +76,7 @@ public class JwtFilter extends GenericFilterBean {
                 }
             }
         }
+        System.out.println("Cookies is empty");
         return null;
     }
 }
