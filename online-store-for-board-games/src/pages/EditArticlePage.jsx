@@ -105,6 +105,15 @@ const EditArticlePage = () => {
                 console.error('Ошибка при обновлении товара:', error);
             }
         } else {
+            console.log(name);
+            console.log(description);
+            console.log(quantityOfPlayers);
+            console.log(gameTime);
+            console.log(yearOfRelease);
+            console.log(producer);
+            console.log(recommendedAge);
+            console.log(actualPrice);
+            console.log(reserves);
             setErrorNotification('Пожалуйста, заполните все обязательные поля.');
         }
     };

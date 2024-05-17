@@ -45,7 +45,9 @@ axiosInstance.interceptors.response.use(
                         withCredentials: true,
                     });
                     console.log("Обновил рефреш токен");
-                    console.log(response.status);
+                    localStorage.setItem('access', response.data.accessToken);
+                    const accessToken = localStorage.getItem('access');
+                    error.config.headers['Authorization'] = `Bearer ${accessToken}`;
     
                     // Повторяем исходный запрос с обновленным токеном
                     return axiosInstance(error.config);
